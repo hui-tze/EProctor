@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block style %}
+table{
+    border-radius: 25px !important;
+}
+thead {
+    background-color: #3A5898;
+    color: white;
+}
+
+.btnc{
+    background-color: #3A5898;
+    color: white;
+}
+
+.space{
+    height: 10px
+}
+{% endblock %}
+
+
+
+{% block body %}
+<script type="text/javascript">
+     $(document).ready(function () {
+            $('#subject_code').change(function () {
+                var code = $(this).val;
+                $.ajax({
+                    url: 'validate_code',
+                    data:{
+                        'subject_code' : code
+                    },
+                    dataType: 'json',
+                    success: function(data){
+                        if (data.is_taken){
+                            alert("Subject Code already exists");
+                        }
+                    }
+                });
+            });
+     });
+</script>
+<button type="button" class="btn btnc btn-primary" data-toggle="modal" data-target="#modalSubscriptionForm">Add Subject</button>
+<div class = "space"></div>
+{% for message in messages %}
+<div class="container-fluid p-0">
+  <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {{ message }}
+  </div>
+</div>
+{% endfor %}
+<div class = "space"></div>
+<div class="shadow p-3 mb-5 bg-white rounded">
+<table class="table table-hover table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">No</th>
+      <th scope="col">Subject Code</th>
+      <th scope="col">Subject Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for subject in all_subject %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>{{subject.subjectID}}</td>
+          <td>{{subject.subjectName}}</td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+
+<div class="modal fade bd-example-modal-lg" id="modalSubscriptionForm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Add Subject</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <form action="add_new_subject" method="post">
+            {% csrf_token %}
+      <div class="modal-body mx-3">
+        <!--Body-->
+
+        <div class="md-form mb-5">
+            <label data-error="wrong" data-success="right" for="subject_code">Subject Code</label>
+          <input type="text" id="subject_code" class="form-control validate" name="subject_code" required>
+            <div id="subject_codeFeedback" class="invalid-feedback">
+              Please provide a valid city.
+            </div>
+        </div>
+
+        <div class="md-form pb-3">
+            <label data-error="wrong" data-success="right" for="subject_name">Subject Name</label>
+          <input type="text" id="subject_name" class="form-control validate" name="subject_name" required>
+        </div>
+
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button class="btn btnc" type="submit">Submit</button>
+      </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+

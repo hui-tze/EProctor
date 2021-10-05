@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block style %}
+table{
+    border-radius: 25px !important;
+}
+thead {
+    background-color: #3A5898;
+    color: white;
+}
+
+.btnc{
+    background-color: #3A5898;
+    color: white;
+}
+
+.space{
+    height: 10px
+}
+
+
+{% endblock %}
+
+
+{% block body %}
+<button type="button" class="btn btnc btn-primary" data-toggle="modal" data-target="#modalSubscriptionForm">Add Question</button>
+<div class = "space"></div>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td colspan="2">Larry the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
+
+<!--<div class="modal fade bd-example-modal-lg" id="modalSubscriptionForm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">-->
+<!--  <div class="modal-dialog modal-lg">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header text-center">-->
+<!--        <h4 class="modal-title w-100 font-weight-bold">Add Question</h4>-->
+<!--        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--          <span aria-hidden="true">&times;</span>-->
+<!--        </button>-->
+<!--      </div>-->
+<!--      <div class="modal-body mx-3">-->
+<!--        &lt;!&ndash;Body&ndash;&gt;-->
+<!--        <div class="md-form mb-5">-->
+<!--            <label data-error="wrong" data-success="right" for="Form-email1">Your email</label>-->
+<!--          <input type="email" id="Form-email1" class="form-control validate">-->
+<!--        </div>-->
+
+<!--        <div class="md-form pb-3">-->
+<!--            <label data-error="wrong" data-success="right" for="Form-pass1">Your password</label>-->
+<!--          <input type="password" id="Form-pass1" class="form-control validate">-->
+<!--        </div>-->
+
+<!--        <div class="text-center mb-3">-->
+<!--          <button type="button" class="btn blue-gradient btn-block btn-rounded z-depth-1a">Sign in</button>-->
+<!--        </div>-->
+<!--        <p class="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2"> or Sign in-->
+<!--          with:</p>-->
+
+<!--        <div class="row my-3 d-flex justify-content-center">-->
+<!--          &lt;!&ndash;Facebook&ndash;&gt;-->
+<!--          <button type="button" class="btn btn-white btn-rounded mr-md-3 z-depth-1a"><i class="fab fa-facebook-f text-center"></i></button>-->
+<!--          &lt;!&ndash;Twitter&ndash;&gt;-->
+<!--          <button type="button" class="btn btn-white btn-rounded mr-md-3 z-depth-1a"><i class="fab fa-twitter"></i></button>-->
+<!--          &lt;!&ndash;Google +&ndash;&gt;-->
+<!--          <button type="button" class="btn btn-white btn-rounded z-depth-1a"><i class="fab fa-google-plus-g"></i></button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="modal-footer d-flex justify-content-center">-->
+<!--        <button class="btn btnc">Send</button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<div>
+<form>
+  <div class="form-group">
+      <label for="inputState">Subject</label>
+      <select id="inputState" class="form-control">
+          {% for subject in all_subject %}
+              <<option>{{subject.subjectID}} {{subject.subjectName}}</option>
+          {% endfor %}
+      </select>
+  </div>
+  <div class="form-group">
+    <label for="Question">Question</label>
+    <textarea class="form-control" id="Question" rows="3"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="option1">Option 1</label>
+    <input type="email" class="form-control" id="option1" >
+  </div>
+    <div class="form-group">
+    <label for="option2">Option 2</label>
+    <input type="email" class="form-control" id="option2" >
+  </div>
+    <div class="form-group">
+    <label for="option3">Option 3</label>
+    <input type="email" class="form-control" id="option3" >
+  </div>
+    <div class="form-group">
+    <label for="option4">Option 4</label>
+    <input type="email" class="form-control" id="option4">
+  </div>
+ <div class="form-group">
+      <label for="correct">Correct Option</label>
+      <select id="correct" class="form-control">
+        <option selected>Option 1</option>
+        <option>Option 2</option>
+        <option>Option 3</option>
+        <option>Option 4</option>
+      </select>
+  </div>
+
+</form>
+</div>
+
+{% endblock %}
+
