@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+
+    <style>
+         jumbotron{
+    margin-bottom: 0px;
+  }
+
+  container{
+  min-height:50%;
+  }
+
+  .acca_logo {
+      width: 20%;
+      height: 18%;
+     }
+    .acca_image{
+    }
+
+    .section{
+    height:100%;
+    }
+    </style>
+</head>
+<body>
+    {% include "exam/navbar.html" %}
+<br>
+<section id="section-jumbotron" class="jumbotron jumbotron-fluid d-flex justify-content-center align-items-center">
+  <div class="container text-center">
+    <h1>ACCA E-proctor System</h1>
+      <br/><br/>
+      <div>
+      <img src="{% static "image/accaExam.jpg" %}" alt="">
+          <br/><br/><br/>
+      </div>
+      <div>
+          <br/><br/><br/>
+   <img src="{% static "image/accaLogo.jpg" %}" class="acca_logo" alt="">
+      </div>
+
+  </div>
+
+</section>
+ {% include "exam/footer.html" %}
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <style media="screen">
+    .jumbotron {
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+
+    .jumbotron h1 {
+      text-align: center;
+    }
+
+  </style>
+
+</head>
+<body>
+ {% include "exam/navbar.html" %}
+  <br><br>
+  <div class="jumbotron" style="margin-bottom:0px;">
+      <br><br>
+    <h1 class="display-4">Hello Student</h1>
+    <p class="lead">Welcome to ACCA E-proctor System</p>
+    <hr class="my-4">
+    <p class="lead">
+      <a class="btn btn-primary" style="border-radius:0px;" href="/student/stusignup" role="button">Sign Up</a>
+      <a class="btn btn-success" style="border-radius:0px;" href="/student/stulogin" role="button">Sign In</a>
+    </p>
+    <br><br><br><br>
+  </div>
+  {% include "exam/footer.html" %}
+</body>
+</html>

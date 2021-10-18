@@ -5,9 +5,6 @@ from .models import Subject
 
 
 # Create your views here.
-def home(request):
-    return render(request, 'index.html')
-
 
 def question(request):
     all_subject = Subject.objects.all()
@@ -49,3 +46,6 @@ def validate_code(request):
     if data['is_taken']:
         data['error_message'] = "Subject Code already exists."
     return JsonResponse(data)
+
+
+
