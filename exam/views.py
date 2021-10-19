@@ -44,7 +44,7 @@ def question(request):
         'all_subject': all_subject,
         'all_answer': all_answer,
     }
-    return render(request, 'questionbank.html', context)
+    return render(request, 'questions/questionbank.html', context)
 
 
 def subject(request):
@@ -52,7 +52,7 @@ def subject(request):
     context = {
         'all_subject': all_subject
     }
-    return render(request, 'subject.html', context)
+    return render(request, 'subjects/subject.html', context)
 
 
 def add_new_subject(request):
@@ -62,7 +62,7 @@ def add_new_subject(request):
         subject_code = request.POST["subjectCode"]
         if Subject.objects.filter(subjectCode=subject_code).exists():
             messages.warning(request, "Subject Code already Exists")
-            return render(request, 'subjectForm.html', {'form': form})
+            return render(request, 'subjects/subjectForm.html', {'form': form})
         else:
             if form.is_valid():
                 form.save()
@@ -70,7 +70,7 @@ def add_new_subject(request):
                 return redirect('/exam/subject')
     else:
         form = SubjectForm()
-    return render(request, 'subjectForm.html', {'form': form})
+    return render(request, 'subjects/subjectForm.html', {'form': form})
 
 
 def edit_subject(request, pk):
@@ -85,7 +85,7 @@ def edit_subject(request, pk):
             return redirect('/exam/subject')
     else:
         form = SubjectForm(instance=sub)
-    return render(request, 'subjectForm.html', {'form': form})
+    return render(request, 'subjects/subjectForm.html', {'form': form})
 
 
 def delete_subject(request, pk):
@@ -123,7 +123,7 @@ def add_question(request):
             answer_info.save()
         messages.success(request, "Add Question Successfully")
         return redirect('/exam/question')
-    return render(request, 'addQuestion.html', context)
+    return render(request, 'questions/addQuestion.html', context)
 
 
 def edit_question(request, pk):
@@ -158,8 +158,8 @@ def edit_question(request, pk):
         messages.success(request, "Add Question Successfully")
         return redirect('/exam/question')
     else:
-        return render(request, 'addQuestion.html', context)
-    return render(request, 'addQuestion.html', context)
+        return render(request, 'questions/addQuestion.html', context)
+    return render(request, 'questions/addQuestion.html', context)
 
 
 def validate_code(request):
@@ -180,7 +180,7 @@ def examination(request):
         'all_subject': all_subject
     }
     form = ExamForm(request.POST)
-    return render(request, 'examination.html', context)
+    return render(request, 'examination/examination.html', context)
 
 
 def add_examination(request):
@@ -202,7 +202,7 @@ def add_examination(request):
         exam_info.save()
         messages.success(request, "Add Examination Successfully")
         return redirect('/exam/examination')
-    return render(request, 'examinationForm.html', context)
+    return render(request, 'examination/examinationForm.html', context)
 
 
 def my_examination(request):
@@ -223,4 +223,4 @@ def my_examination(request):
         'all_answer': all_answer,
         'count': count
     }
-    return render(request, 'startExam.html', context)
+    return render(request, 'examination/startExam.html', context)

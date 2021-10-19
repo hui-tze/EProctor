@@ -42,6 +42,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'exam.apps.ExamConfig',
+    'student.apps.StudentConfig',
+    'instructor',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -98,7 +100,7 @@ DATABASES = {
         'PASSWORD': 'password',
         'HOST': 'localhost',
         'PORT': '3306',
-
+        'OPTIONS': {"init_command": "SET sql_mode='STRICT_TRANS_TABLES'", }
     }
 }
 
