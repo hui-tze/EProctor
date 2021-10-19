@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block style %}
+table{
+    border-radius: 25px !important;
+}
+thead {
+    background-color: #3A5898;
+    color: white;
+}
+
+.btnc{
+    background-color: #3A5898;
+    color: white;
+}
+
+.space{
+    height: 10px
+}
+
+.back{
+    padding: 10px;
+    padding-left:20px;
+    background-color: #3A5898;
+    color: white;
+    border-radius: 10px !important;
+}
+
+.padding{
+    padding: 15px
+}
+
+{% endblock %}
+
+
+{% block body %}
+<script>
+    $(function(){
+    var dtToday = new Date();
+
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+
+    var maxDate = year + '-' + month + '-' + day;
+    $('#date').attr('min', maxDate);
+});
+</script>
+<div class="shadow p-2 mb-4 bg-white rounded">
+    <div class="back">
+        <font size="5px">Add Examination</font>
+    </div>
+ <form method="post" action="{% url 'add_examination' %}">
+    {% csrf_token %}
+  <div class="padding">
+  <div class="form-group col-auto row">
+      <label for="subject">Subject</label>
+      <select id="subject" class="form-control" name="subject" required>
+          {% if not editSub %}
+          <option value="">--------</option>
+          {% endif %}
+          {% for subject in all_subject %}
+          <option value="{{subject.subjectID}}" {% if editQues.subject == subject.subjectID %} selected="selected" {% endif %}>{{subject.subjectCode}} {{subject.subjectName}}</option>
+          {% endfor %}
+      </select>
+  </div>
+  <div class="form-group col-5 row">
+    <label for="date">Exam Date</label>
+    <input type="date" class="form-control" id="date" name="date" required >
+  </div>
+  <div class="row">
+      <div class="form-group col-5">
+        <label for="stime">Start Time</label>
+        <input type="time" class="form-control" id="stime" name="stime" required>
+      </div>
+      <div class="form-group col-5">
+        <label for="etime">End Time</label>
+        <input type="time" class="form-control" id="etime" name="etime" required>
+      </div>
+  </div>
+
+  <div class="form-group col-4 row">
+    <label for="num">Number of Question</label>
+    <input type="number" class="form-control" id="num" name="num" required>
+  </div>
+
+    {% if editQues %}
+     <div class="form-group">
+      <label for="status">Status</label>
+      <select id="status" class="form-control" name="status">
+             <option value="A" {% if question.status == Active %} selected {% endif %}>Active</option>
+             <option value="I" {% if question.status != Active %} selected {% endif %}>Inactive</option>
+      </select>
+     </div>
+     {% endif %}
+     {% if editQues %}
+        <button type="submit" class="btn btn-success">Update Question</button>
+     {% else %}
+        <button type="submit" class="btn btn-success">Add Exam</button>
+     {% endif %}
+
+
+</div>
+
+</form>
+</div>
+
+
+{% endblock %}
+

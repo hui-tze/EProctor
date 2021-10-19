@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+
 {% block style %}
 table{
     border-radius: 25px !important;
@@ -91,19 +92,15 @@ span.number{
 
 
 {% block body %}
-
-<div class = "space"></div>
 <div class="shadow p-2 mb-4 bg-white rounded">
     <div class="back">
-        <font size="5px">Manage Question</font>
-            <a href="{% url 'add_question' %}">
+        <font size="5px">Manage Exam</font>
+            <a href="{% url 'add_examination' %}">
                         <button type="button" class="btn btn-success float-right">
-                            Add Question
+                            Add Exam
                         </button>
             </a>
-
     </div>
-
     <div class="form-outline">
         <form method="get" class="form-horizontal">
             <div class="m-4 container">
@@ -116,15 +113,15 @@ span.number{
                               {% endfor %}
                           </select>
                     </div>
+                    <div class="col-3">
+                        <input type="date" class="form-control" id="ques" name="ques" placeholder="Exam Date">
+                    </div>
                     <div class="col-auto">
                         <select id="status" class="form-control" name="status">
                                  <option value="">---Status---</option>
                                  <option value="A">Active</option>
                                  <option value="I">Inactive</option>
                         </select>
-                    </div>
-                    <div class="col-4">
-                        <input type="text" class="form-control" id="ques" name="ques" placeholder="Question">
                     </div>
 
                     <div class="col-auto">
@@ -140,53 +137,32 @@ span.number{
       <thead>
         <tr>
           <th scope="col">No</th>
-          <th scope="col">Question</th>
-          <th scope="col">Answer</th>
+          <th scope="col">Subject</th>
+          <th scope="col">Date</th>
+          <th scope="col">Time</th>
+          <th scope="col">Duration(hours)</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
       <tbody>
-        {% for question in all_question %}
+        {% for exam in all_exam %}
             <tr>
               <th scope="row">{{ forloop.counter }}</th>
-              <td>{{question.questionDesc}}</td>
-                {% for answer in all_answer %}
-                {% if answer.question == question.questionID %}
-                {% if answer.rightAns == 'T' %}
-              <td>{{answer.answerDesc}}</td>
-                {% endif %}
+                {% for subject in all_subject %}
+                {% if exam.subject == subject.subjectID %}
+              <td>{{subject.subjectName}}</td>
                 {% endif %}
                 {% endfor %}
-              <td><a href="{% url 'edit_question' question.questionID %}" class="edit"><i class="material-icons" title="Edit">&#xE254;</i></a>
+              <td>{{exam.examDate}}</td>
+              <td>{{exam.startTime}} - {{exam.endTime}}</td>
+              <td>{{exam.duration}}</td>
+              <td><a href="" class="edit"><i class="material-icons" title="Edit">&#xE254;</i></a>
                   <a href="" class="delete"><i class="material-icons" title="Delete">&#xE872;</i></a></td>
             </tr>
 
         {% endfor %}
       </tbody>
     </table>
-    <div class="center">
-        <div class="pagination">
-            {% if all_question.has_other_pages %}
-            {% if all_question.has_previous %}
-              <a href="?page={{ all_question.previous_page_number }}">&laquo;</a>
-            {% else %}
-             <span class="number">&laquo;</span>
-            {% endif %}
-            {% for i in all_question.paginator.page_range %}
-              {% if all_question.number == i %}
-               <span class="pageactive">{{ i }} <span class="sr-only">(current)</span></span>
-              {% else %}
-                <a href="?page={{ i }}">{{ i }}</a>
-              {% endif %}
-            {% endfor %}
-            {% if all_question.has_next %}
-              <a href="?page={{ all_question.next_page_number }}">&raquo;</a>
-            {% else %}
-              <span class="number">&raquo;</span>
-            {% endif %}
-        {% endif %}
-        </div>
-    </div>
 </div>
 {% endblock %}
 

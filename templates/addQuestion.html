@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block style %}
+table{
+    border-radius: 25px !important;
+}
+thead {
+    background-color: #3A5898;
+    color: white;
+}
+
+.btnc{
+    background-color: #3A5898;
+    color: white;
+}
+
+.space{
+    height: 10px
+}
+
+
+{% endblock %}
+
+
+{% block body %}
+{% if editQues %}
+<h1>Edit Question</h1>
+{% else %}
+<h1>Add Question</h1>
+{% endif %}
+<div>
+    {% if editQues %}
+<form method="post" action="{% url 'edit_question' editQues.questionID %}">
+    {% else %}
+ <form method="post" action="{% url 'add_question' %}">
+     {% endif %}
+    {% csrf_token %}
+  <div class="form-group">
+      <label for="subject">Subject</label>
+      <select id="subject" class="form-control" name="subject" required>
+          {% if not editSub %}
+          <option></option>
+          {% endif %}
+          {% for subject in all_subject %}
+          <option value="{{subject.subjectID}}" {% if editQues.subject == subject.subjectID %} selected="selected" {% endif %}>{{subject.subjectCode}} {{subject.subjectName}}</option>
+          {% endfor %}
+      </select>
+  </div>
+  <div class="form-group">
+    <label for="Question">Question</label>
+    <textarea class="form-control" id="question" rows="3" name="question" required >{% if editQues %} {{editQues.questionDesc}} {% endif %}</textarea>
+  </div>
+    {% if editQues %}
+    {% for x in editAns %}
+        <div class="form-group">
+            <label for="option{{forloop.counter}}">Option {{forloop.counter}}</label>
+            <input type="text" class="form-control" id="option{{forloop.counter}}" name="option{{forloop.counter}}" required value="{{x.answerDesc}}">
+        </div>
+    {% endfor %}
+    {% else %}
+
+  <div class="form-group">
+    <label for="option1">Option 1</label>
+    <input type="text" class="form-control" id="option1" name="option1" required {% if editAns %} value="{{editAns.answerDesc}}" {% endif %}>
+  </div>
+    <div class="form-group">
+    <label for="option2">Option 2</label>
+    <input type="text" class="form-control" id="option2" name="option2" required>
+  </div>
+    <div class="form-group">
+    <label for="option3">Option 3</label>
+    <input type="text" class="form-control" id="option3" name="option3" required>
+  </div>
+    <div class="form-group">
+    <label for="option4">Option 4</label>
+    <input type="text" class="form-control" id="option4" name="option4" required>
+  </div>
+    {% endif %}
+ <div class="form-group">
+      <label for="correct">Correct Option</label>
+      <select id="correct" class="form-control" name="correct">
+          {% if editQues %}
+          {% for x in editAns %}
+            <option value="{{forloop.counter}}" {% if x.rightAns == True %} selected {% endif %}>Option {{forloop.counter}}</option>
+          {% endfor %}
+          {% else %}
+             <option selected value="1">Option 1</option>
+             <option value="2">Option 2</option>
+             <option value="3">Option 3</option>
+             <option value="4">Option 4</option>
+          {% endif %}
+
+      </select>
+  </div>
+    {% if editQues %}
+     <div class="form-group">
+      <label for="status">Status</label>
+      <select id="status" class="form-control" name="status">
+             <option value="A" {% if question.status == Active %} selected {% endif %}>Active</option>
+             <option value="I" {% if question.status != Active %} selected {% endif %}>Inactive</option>
+      </select>
+     </div>
+     {% endif %}
+     {% if editQues %}
+        <button type="submit" class="btn btn-success">Update Question</button>
+     {% else %}
+        <button type="submit" class="btn btn-success">Add Question</button>
+     {% endif %}
+
+
+
+
+</form>
+</div>
+
+{% endblock %}
+

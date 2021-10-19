@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+
+
+{% block style %}
+table{
+    border-radius: 25px !important;
+}
+
+.head{
+    font-size: 20px;
+}
+
+.space{
+    height: 10px
+}
+
+.back{
+    padding: 8px;
+    float: center;
+    background-color: #3A5898;
+    color: white;
+}
+
+.edit{
+    color: #FFC720;
+}
+
+.delete{
+    color: #F5564A;
+}
+
+.search{
+    color: white;
+    font-size: 15px;
+    text-align:center;
+}
+
+.center {
+  text-align: center;
+}
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  text-decoration: none;
+}
+
+.navigate a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  border: 1;
+  text-decoration: none;
+}
+
+.pageactive{
+  background-color: #3A5898;
+  color: white;
+  border-radius: 5px;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+span.number{
+  border-radius: 5px;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.padding{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px
+}
+
+.padQues{
+    padding-top: 10px;
+    padding-bottom: 4px;
+}
+
+.previous{
+    background-color: #dc3546;
+    border-radius: 5px;
+    color: #FFFFFF;
+}
+
+a+a {
+  margin-left: 20px;
+}
+
+
+{% endblock %}
+
+
+{% block body %}
+<div class="d-flex flex-row">
+  <div class="w-75 p-3">
+      <div class="shadow p-2 mb-4 bg-white rounded">
+        <div class="back">
+            <font size="5px" >Questions</font>
+        </div>
+          <div class="padding">
+              <b>Question {{all_question.number}} of {{count}}</b><br>
+          {{all_question.questionDesc}}
+
+
+         {% for question in all_question %}
+          <div class="padQues">
+            <font size="4pt"> {{question.questionDesc}}</font>
+          </div>
+              <table class="table table-striped">
+              <tbody>
+            {% for answer in all_answer %}
+                {% if question.questionID == answer.question %}
+                <tr><td>
+                <div class="form-check">
+                    <input type="radio" value="{{answer.answerID}}" id="{{answer.answerID}}" name="{{question.questionID}}">
+                    <label for="{{answer.answerID}}">{{answer.answerDesc}}</label>
+                </div>
+                </td></tr>
+                {% endif %}
+            {% endfor %}
+              </tbody>
+            </table>
+
+        {% endfor %}
+        </div>
+
+        <div class="center">
+            <div class="pagination">
+                {% if all_question.has_other_pages %}
+                {% if all_question.has_previous %}
+                  <a href="?page={{ all_question.previous_page_number }}" class="btn btn-danger"><font color="white">&laquo; Previous</font></a>
+                {% else %}
+                 <span class="number">&laquo;</span>
+                {% endif %}
+                {% if all_question.has_next %}
+                <a href="?page={{ all_question.next_page_number }}" class="btn btn-success"><font color="white">Next &raquo;</font></a>
+                {% else %}
+                  <a href="" class="btn btn-success" style="float:right;"><font color="white">Finish attempt</font></a>
+                {% endif %}
+                {% endif %}
+
+
+            </div>
+
+        </div>
+
+    </div>
+  </div>
+  <div class="w-25 p-3">
+      <div class="shadow p-2 mb-4 bg-white rounded">
+        <div class="back">
+            <font size="3px" >Exam</font>
+        </div>
+        <table class="table table-striped table-bordered table-sm">
+            <thead>
+            <tr>
+              <th colspan="2">Math</th>
+            </tr>
+          </thead>
+            <tbody>
+                <tr>
+                    <td><font size="2px">Date</font></td>
+                    <td><font size="2px">240 Min</font></td>
+                </tr>
+                <tr>
+                    <td><font size="2px">Duration</font></td>
+                    <td><font size="2px">240 Min</font></td>
+                </tr>
+                <tr>
+                    <td><font size="2px">Time Left</font></td>
+                    <td><font size="2px">18:40</font></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="back">
+            <font size="3px" >Exam Navigation</font>
+        </div>
+        <div class="navigate">
+            {% for i in all_question.paginator.page_range %}
+                  {% if all_question.number == i %}
+                   <span class="pageactive">{{ i }} <span class="sr-only">(current)</span></span>
+                  {% else %}
+                    <a href="?page={{ i }}">{{ i }}</a>
+                  {% endif %}
+            {% endfor %}
+        </div>
+      </div>
+  </div>
+</div>
+
+{% endblock %}
+

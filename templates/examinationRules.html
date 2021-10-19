@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+
+{% block style %}
+table{
+    border-radius: 25px !important;
+}
+
+.head{
+    font-size: 20px;
+}
+
+.space{
+    height: 10px
+}
+
+.back{
+    padding: 10px;
+    float: center;
+    background-color: #3A5898;
+    color: white;
+    border-radius: 10px !important;
+}
+
+.edit{
+    color: #FFC720;
+}
+
+.delete{
+    color: #F5564A;
+}
+
+.search{
+    color: white;
+    font-size: 15px;
+    text-align:center;
+}
+
+.center {
+  text-align: center;
+}
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+span.number{
+  border-radius: 5px;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pageactive{
+  background-color: #3A5898;
+  color: white;
+  border-radius: 5px;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color: #3A5898;
+  color: white;
+  border-radius: 5px;
+}
+
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+  border-radius: 5px;
+}
+
+
+.searching{
+  padding: 7px 16px 7px 16px;
+  background-color: #3A5898;
+  color: #FFFFFF;
+  border-radius: 5px;
+}
+
+
+
+
+{% endblock %}
+
+
+{% block body %}
+<div class="shadow p-2 mb-4 bg-white rounded">
+    <div class="back" style="text-align:center;">
+        <font size="5px" >Examination Rules and Regulations</font>
+    </div>
+    <table class="table">
+      <tbody>
+      <tr><td>  1.</td>  <td>Answer <b>all</b> questions given.</td></tr>
+      <tr><td>  2.</td>  <td>You are given <b>1 hour(s)</b> to answer all the questions.</td></tr>
+      <tr><td>  3.</td>  <td><b>CHEATING</b> or <b>PLAGIARISM</b> during examination is not allowed.</td></tr>
+      <tr><td>  4.</td>  <td>Please make sure you <b>on your camera</b> before starting examination.</td></tr>
+      <tr><td>  5.</td>  <td>Please make sure you camera is <b>always on</b> during the examination.</td></tr>
+      <tr><td>  6.</td>  <td>Click on the “<b>Submit</b>” button to submit your answer after done answering your questions. </td></tr>
+      <tr><td>  7.</td>  <td>You can view your result after the examination session is ended. </td></tr>
+      </tbody>
+    </table>
+    <div style="text-align:center;">
+        <button type="submit" class="btn btn-success">Start Examination</button>
+    </div>
+</div>
+{% endblock %}
+

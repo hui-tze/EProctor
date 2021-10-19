@@ -4,45 +4,42 @@
 table{
     border-radius: 25px !important;
 }
-thead {
-    background-color: #3A5898;
-    color: white;
-}
 
-.btnc{
-    background-color: #3A5898;
-    color: white;
+.head{
+    font-size: 20px;
 }
 
 .space{
     height: 10px
 }
+
+.back{
+    padding: 10px;
+    background-color: #3A5898;
+    color: white;
+    border-radius: 10px !important;
+}
+
+.edit{
+    color: #FFC720;
+}
+
+.delete{
+    color: #F5564A;
+}
 {% endblock %}
 
 
+{% block script %}
+
+{% endblock %}
 
 {% block body %}
-<script type="text/javascript">
-     $(document).ready(function () {
-            $('#subject_code').change(function () {
-                var code = $(this).val;
-                $.ajax({
-                    url: 'validate_code',
-                    data:{
-                        'subject_code' : code
-                    },
-                    dataType: 'json',
-                    success: function(data){
-                        if (data.is_taken){
-                            alert("Subject Code already exists");
-                        }
-                    }
-                });
-            });
-     });
+<script>
+$(document).on('click', '.delete', function(){
+    return confirm('Are you sure you want to delete this?');
+})
 </script>
-<button type="button" class="btn btnc btn-primary" data-toggle="modal" data-target="#modalSubscriptionForm">Add Subject</button>
-<div class = "space"></div>
 {% for message in messages %}
 <div class="container-fluid p-0">
   <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
@@ -54,25 +51,43 @@ thead {
 </div>
 {% endfor %}
 <div class = "space"></div>
-<div class="shadow p-3 mb-5 bg-white rounded">
-<table class="table table-hover table-bordered">
+<div class="shadow p-2 mb-4 bg-white rounded">
+    <div class="back">
+        <font size="5px">Manage Subject</font>
+            <button type="button" class="btn-primary btn btn-success float-right" data-toggle="modal" data-target="#modalSubscriptionForm" >Add Subject</button>
+            <a href="{% url 'add_new_subject' %}">
+                        <button type="button" class="btn btn-success float-right">
+                            <span class="glyphicon glyphicon-plus"></span>Add Subject
+                        </button>
+            </a>
+
+    </div>
+<table class="table table-hover table-striped">
   <thead>
     <tr>
       <th scope="col">No</th>
       <th scope="col">Subject Code</th>
       <th scope="col">Subject Name</th>
+      <th scope="col">Action</th>
     </tr>
   </thead>
   <tbody>
     {% for subject in all_subject %}
         <tr>
           <th scope="row">{{ forloop.counter }}</th>
-          <td>{{subject.subjectID}}</td>
+          <td>{{subject.subjectCode}}</td>
           <td>{{subject.subjectName}}</td>
+          <td><a href="{% url 'edit_subject' subject.subjectID %}" class="edit"><i class="material-icons" title="Edit">&#xE254;</i></a>
+              <a href="{% url 'delete_subject' subject.subjectID %}" class="delete"><i class="material-icons" title="Delete">&#xE872;</i></a></td>
         </tr>
+
     {% endfor %}
   </tbody>
 </table>
+</div>
+
+
+
 </div>
 
 
@@ -111,6 +126,8 @@ thead {
     </div>
   </div>
 </div>
+
+
 
 {% endblock %}
 
