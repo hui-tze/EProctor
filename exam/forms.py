@@ -1,7 +1,6 @@
 from django.core.exceptions import NON_FIELD_ERRORS
 from django.forms import ModelForm, widgets, DateInput
 from .models import *
-from bootstrap_datepicker_plus import DatePickerInput
 from django import forms
 
 

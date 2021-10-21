@@ -6,9 +6,10 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required, user_passes_test
+from .forms import UpdateUserForm, UpdateStudentForm
+from student.models import Student
 
 
-# Create your views here.
 def studentclick_view(request):
     return render(request, 'student/studentclick.html')
 
@@ -71,3 +72,38 @@ def student_dashboard_view(request):
 def student_logout_request(request):
     logout(request)
     return HttpResponseRedirect('/home')
+
+
+@login_required(login_url='stulogin')
+def student_logout_request(request):
+    logout(request)
+    return HttpResponseRedirect('/home')
+
+
+@login_required(login_url='stulogin')
+@user_passes_test(is_student)
+def view_student_profile(request, pk):
+    student = Student.objects.get(user_id=pk)
+
+    if student.studentGender == 'F':
+        student.studentGender = "Female"
+    else:
+        student.studentGender = "Male"
+
+    if request.method == 'POST':
+        profile_form = UpdateStudentForm(request.POST,request.FILES,instance=request.user.student)
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.success(request, 'Your profile is updated successfully')
+        else:
+            messages.error(request, 'Error occured')
+    else:
+        profile_form = UpdateStudentForm(instance=request.user.student)
+
+    context = {
+        'profile_form': profile_form,
+        'student': student
+    }
+
+    return render(request, 'student/student_profile.html', context)
+

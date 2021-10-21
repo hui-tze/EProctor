@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'django_filters',
     'crispy_forms',
-    'bootstrap_datepicker_plus',
 ]
 
 CRISPY_TEMPLATE_PACK = 'uni_form'
@@ -148,3 +147,9 @@ STATICFILES_DIRS = [(os.path.join(BASE_DIR, 'static'))]
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+AWS_ACCESS_KEY_ID = 'don45nogo45ouyho45hy5'
+AWS_SECRET_ACCESS_KEY = 'orebgojtiopj45tpngpnerpg'
+AWS_SES_REGION_NAME = 'ap-southeast-1'
+AWS_SES_REGION_ENDPOINT ='email.ap-southeast-1.amazonaws.com'
