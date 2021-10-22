@@ -8,5 +8,6 @@ urlpatterns = [
     path('stusignup', views.student_signup_view,name='studentsignup'),
     path('stulogin', views.student_login_view,name='studentlogin'),
     path('studashboard', views.student_dashboard_view,name='studentdashboard'),
-    path('stulogout', views.student_logout_request,name='studentlogout')
+    path('stulogout', views.student_logout_request,name='studentlogout'),
+    path('studentprofile/<int:pk>', views.view_student_profile,name='studentprofile')
 ]

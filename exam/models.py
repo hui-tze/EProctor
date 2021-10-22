@@ -1,7 +1,5 @@
 from django.db import models
 from django import forms
-from bootstrap_datepicker_plus import DatePickerInput
-
 
 # Create your models here.
 class Subject(models.Model):

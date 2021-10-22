@@ -237,7 +237,8 @@ a.article:hover {
                     <a href="/student/studashboard"><i class="fas fa-tachometer-alt"></i><span>  Dashboard</span></a>
                 </li>
                 <li>
-                    <a href="#"><i class="fas fa-user"></i><span>  My Profile</span></a>
+                    <a href="{% url 'studentprofile' request.user.id  %}"><i class="fas fa-user"></i><span>  My Profile</span></a>
+
                 </li>
                  <li>
                     <a href="#"><i class="fas fa-book"></i><span>  My Exams</span></a>
