@@ -18,4 +18,4 @@ def countdown(t):
 t = input("Enter the time in seconds: ")
 
 # function call
-countdown(int(t))
+countdown(int(240))

@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+
+{% block style %}
+table{
+    border-radius: 25px !important;
+}
+
+.head{
+    font-size: 20px;
+}
+
+.space{
+    height: 10px
+}
+
+.back{
+    padding: 10px;
+    background-color: #3A5898;
+    color: white;
+    border-radius: 10px !important;
+}
+
+.assign{
+    color: black;
+}
+
+.edit{
+    color: #FFC720;
+}
+
+.delete{
+    color: #F5564A;
+}
+
+.search{
+    color: white;
+    font-size: 15px;
+    text-align:center;
+}
+
+.center {
+  text-align: center;
+}
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+span.number{
+  border-radius: 5px;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pageactive{
+  background-color: #3A5898;
+  color: white;
+  border-radius: 5px;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color: #3A5898;
+  color: white;
+  border-radius: 5px;
+}
+
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+  border-radius: 5px;
+}
+
+
+.searching{
+  padding: 7px 16px 7px 16px;
+  background-color: #3A5898;
+  color: #FFFFFF;
+  border-radius: 5px;
+}
+
+
+
+
+{% endblock %}
+
+
+{% block body %}
+<div class="shadow p-2 mb-4 bg-white rounded">
+    <div class="back">
+        <font size="5px">Assign Student</font>
+    </div>
+    <form method="post" action="">
+        {% csrf_token %}
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th scope="col"><input type="checkbox" id="all" name="all" class="all"/></th>
+          <th scope="col">Name</th>
+          <th scope="col">IC</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in all_students %}
+            <tr>
+              <td scope="row">
+                <div class="form-check" id="students">
+                     <input type="checkbox" value="{{student.id}}" id="checkbox{{forloop.counter}}" name="checkbox{{forloop.counter}}" class="student"
+                            {% for stud in student_exam %}
+                            {% if stud.studentID == student.id %} checked {% endif %}
+                            {% endfor %}>
+                </div>
+              </td>
+                 <td>{{student.user.first_name}} {{student.user.last_name}}</td>
+                 <td>{{student.studentIC}}</td>
+
+            </tr>
+
+        {% endfor %}
+      </tbody>
+    </table>
+    <button type="submit" class="btn btn-success">Assign</button>
+    </form>
+</div>
+
+<script type="text/javascript" >
+$("#all").click(function(){
+   $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
+});
+
+
+$(".student").change(function(){
+    if ($('input[type="checkbox"].student').not(':checked').length == 0) {
+        $('.all').prop('checked', true);
+    }
+    else{
+        $('.all').prop('checked', false);
+    }
+});
+</script>
+{% endblock %}
+

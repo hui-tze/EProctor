@@ -122,9 +122,11 @@ span.number{
 
 
 {% block body %}
-<script src="timer.py"></script>
+
 <div class="d-flex flex-row">
+
   <div class="w-75 p-3">
+      <form method="get" action="{% url 'post_answer' %}">
       <div class="shadow p-2 mb-4 bg-white rounded">
         <div class="back">
             <font size="5px" >Questions</font>
@@ -140,16 +142,20 @@ span.number{
           </div>
               <table class="table table-striped">
               <tbody>
+
             {% for answer in all_answer %}
                 {% if question.questionID == answer.question %}
                 <tr><td>
+
                 <div class="form-check">
-                    <input type="radio" value="{{answer.answerID}}" id="{{answer.answerID}}" name="{{question.questionID}}">
-                    <label for="{{answer.answerID}}">{{answer.answerDesc}}</label>
+                     <input type="radio" value="{{answer.answerID}}" id="{{question.questionID}}" name="option">
+                    <label for="{{question.questionID}}">{{answer.answerDesc}}</label>
                 </div>
+
                 </td></tr>
                 {% endif %}
             {% endfor %}
+
               </tbody>
             </table>
 
@@ -165,7 +171,7 @@ span.number{
                  <span class="number">&laquo;</span>
                 {% endif %}
                 {% if all_question.has_next %}
-                <a href="?page={{ all_question.next_page_number }}" class="btn btn-success"><font color="white">Next &raquo;</font></a>
+                <a href="?page={{ all_question.next_page_number }}" class="btn btn-success" type="submit"><font color="white">Next &raquo;</font></a>
                 {% else %}
                   <a href="" class="btn btn-success" style="float:right;"><font color="white">Finish attempt</font></a>
                 {% endif %}
@@ -177,7 +183,9 @@ span.number{
         </div>
 
     </div>
+          </form>
   </div>
+
   <div class="w-25 p-3">
       <div class="shadow p-2 mb-4 bg-white rounded">
         <div class="back">
@@ -195,12 +203,14 @@ span.number{
                     <td><font size="2px">240 Min</font></td>
                 </tr>
                 <tr>
-                    <td><font size="2px">Duration</font></td>
+                    <td><font size="2px"><div id="duration">Duration</div></font></td>
                     <td><font size="2px">240 Min</font></td>
                 </tr>
                 <tr>
                     <td><font size="2px">Time Left</font></td>
-                    <td><font size="2px">18:40</font></td>
+                    <td><font size="2px">18:40<div id="countdown"><%print ("Heloo")%></div></font>
+
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -220,5 +230,31 @@ span.number{
   </div>
 </div>
 
+<script>
+$(document).ready(function () {
+      $('input[type="radio"]').click(function(){
+                var value= $(this).val();
+                var id = $(this).attr('id');
+                console.log(value);
+                console.log(id);
+                $.ajax({
+                    url: "{% url 'post_answer' %}",
+                    type: 'post',
+                    data: {
+                        ajax: 1,
+                        value: value,
+                        id: id,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+
+                    success: function (response) {
+                    $('#response').text(value);
+                    console.log("success")
+                    }
+                });
+      });
+});
+
+</script>
 {% endblock %}
 

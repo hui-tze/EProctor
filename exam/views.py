@@ -7,6 +7,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .filters import QuestionFilter
 
 from .models import *
+from student.models import Student
 from .forms import *
 
 
@@ -179,7 +180,6 @@ def examination(request):
         'all_exam': all_exam,
         'all_subject': all_subject
     }
-    form = ExamForm(request.POST)
     return render(request, 'examination/examination.html', context)
 
 
@@ -221,6 +221,64 @@ def my_examination(request):
     context = {
         'all_question': all_question,
         'all_answer': all_answer,
-        'count': count
+        'count': count,
+        'ob': 240,
+        'sc': 'time.js'
     }
     return render(request, 'examination/startExam.html', context)
+
+
+def post_answer(request):
+    if request.is_ajax():
+        choice = request.POST.get('value', None)
+        print(choice)
+        Question.objects.filter(questionID="202110132").update(questionDesc="MY")
+        response = {
+            'msg': 'Your form has been submitted successfully'  # response message
+        }
+        return JsonResponse(response)  # return response as JSON
+
+
+def assign_student(request, pk):
+    all_students = Student.objects.all()
+    exam = Exam.objects.filter(examID=pk)
+    studentExam = StudentExam.objects.filter(examID=pk)
+    if StudentExam.objects.filter(examID=pk).exists():
+        edit = "T"
+    else:
+        edit = 'F'
+    count = Student.objects.all().count()
+    context = {
+        'all_students': all_students,
+        'exam': exam,
+        'count': count,
+        'student_exam': studentExam,
+        'edit': edit
+    }
+    if request.method == 'POST':
+        if edit == 'F':
+            for x in range(count):
+                checkbox = "checkbox" + str(x + 1)
+                if checkbox in request.POST:
+                    stud = request.POST[checkbox]
+                    print(request.POST[checkbox])
+                    exam_student_info = StudentExam(examID=pk, studentID=stud, status='P')
+                    exam_student_info.save()
+        else:
+            x = 0
+            for student in all_students:
+                checkbox = "checkbox" + str(x + 1)
+                if checkbox in request.POST:
+                    stud = request.POST[checkbox]
+                    if not StudentExam.objects.filter(studentID=stud).exists():
+                        print(request.POST[checkbox])
+                        exam_student_info = StudentExam(examID=pk, studentID=stud, status='P')
+                        exam_student_info.save()
+                else:
+                    if StudentExam.objects.filter(studentID=student.id).exists():
+                        studExam = StudentExam.objects.get(studentID=student.id)
+                        studExam.delete()
+                x += 1
+        messages.success(request, "Assign Student Successfully")
+        return redirect('/exam/examination')
+    return render(request, 'examination/assignStudent.html', context)

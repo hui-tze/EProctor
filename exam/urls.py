@@ -15,6 +15,8 @@ urlpatterns = [
 
     path('examination', views.examination, name='examination'),
     path('add_examination', views.add_examination, name='add_examination'),
+    path('assign_student/<str:pk>/', views.assign_student, name='assign_student'),
     path('my_examination', views.my_examination, name='my_examination'),
+    path('post_answer', views.post_answer, name='post_answer'),
     path('validate_code', views.validate_code, name='validate_code'),
 ]

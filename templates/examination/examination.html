@@ -21,6 +21,10 @@ table{
     border-radius: 10px !important;
 }
 
+.assign{
+    color: black;
+}
+
 .edit{
     color: #FFC720;
 }
@@ -156,7 +160,9 @@ span.number{
               <td>{{exam.examDate}}</td>
               <td>{{exam.startTime}} - {{exam.endTime}}</td>
               <td>{{exam.duration}}</td>
-              <td><a href="" class="edit"><i class="material-icons" title="Edit">&#xE254;</i></a>
+              <td>
+                  <a href="{% url 'assign_student' exam.examID %}" class="assign"><i class="material-icons" title="Assign Student">&#xE7FE;</i></a>
+                  <a href="" class="edit"><i class="material-icons" title="Edit">&#xE254;</i></a>
                   <a href="" class="delete"><i class="material-icons" title="Delete">&#xE872;</i></a></td>
             </tr>
 

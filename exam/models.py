@@ -47,3 +47,18 @@ class Exam(models.Model):
     quesNum = models.IntegerField()
     status = models.CharField(max_length=1)
 
+
+class StudentExam(models.Model):
+    sdID = models.AutoField(primary_key=True)
+    examID = models.IntegerField()
+    studentID = models.IntegerField()
+    status = models.CharField(max_length=1, null=True)
+
+
+class StudentAnswer(models.Model):
+    saID = models.AutoField(primary_key=True)
+    questionID = models.CharField(max_length=20)
+    studAns = models.IntegerField(null=True)
+    sdID = models.IntegerField()
+
+
