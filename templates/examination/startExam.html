@@ -117,40 +117,65 @@ span.number{
   margin-left: 20px;
 }
 
+#invigilator {
+    min-width: 20%;
+    max-width: 20%;
+    color: #fff;
+    transition: all 0.3s;
+    height: 100%;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+    position:fixed;
+    top: 50px;
+}
+
+hr{
+   height: 1px;
+   background-color: #ccc;
+   border: none;
+}
 
 {% endblock %}
 
 
 {% block body %}
-
 <div class="d-flex flex-row">
-
   <div class="w-75 p-3">
-      <form method="get" action="{% url 'post_answer' %}">
-      <div class="shadow p-2 mb-4 bg-white rounded">
-        <div class="back">
+      <div class="back">
             <font size="5px" >Questions</font>
         </div>
+      {% for ques in student_question %}
+      <form method="post" action="{% url 'post_answer' %}">
+      <div class="shadow p-2 mb-4 bg-white rounded" id="question{{forloop.counter}}">
+
           <div class="padding">
-              <b>Question {{all_question.number}} of {{count}}</b><br>
-          {{all_question.questionDesc}}
-
-
-         {% for question in all_question %}
+              <b>Question {{forloop.counter}} of {{count}}</b>
+            <hr style="width:100%", size="3", color=black>
           <div class="padQues">
+              {% for question in all_questions %}
+                {% if ques.questionID == question.questionID %}
             <font size="4pt"> {{question.questionDesc}}</font>
+                {% endif %}
+              {% endfor %}
           </div>
               <table class="table table-striped">
               <tbody>
 
             {% for answer in all_answer %}
-                {% if question.questionID == answer.question %}
+                {% if ques.questionID == answer.question %}
                 <tr><td>
 
-                <div class="form-check">
-                     <input type="radio" value="{{answer.answerID}}" id="{{question.questionID}}" name="option">
-                    <label for="{{question.questionID}}">{{answer.answerDesc}}</label>
-                </div>
+
+                     <input type="radio" value="{{answer.answerID}}" id="{{ques.questionID}}" name="option"
+                     {% if ques.studAns is not null %}
+                            {% if ques.studAns == answer.answerID %}
+                                checked
+                            {% endif %}
+                     {% endif %}
+                     >
+                    <label for="{{ques.questionID}}">{{answer.answerDesc}}</label>
+
 
                 </td></tr>
                 {% endif %}
@@ -158,36 +183,28 @@ span.number{
 
               </tbody>
             </table>
-
-        {% endfor %}
         </div>
 
-        <div class="center">
-            <div class="pagination">
-                {% if all_question.has_other_pages %}
-                {% if all_question.has_previous %}
-                  <a href="?page={{ all_question.previous_page_number }}" class="btn btn-danger"><font color="white">&laquo; Previous</font></a>
-                {% else %}
-                 <span class="number">&laquo;</span>
-                {% endif %}
-                {% if all_question.has_next %}
-                <a href="?page={{ all_question.next_page_number }}" class="btn btn-success" type="submit"><font color="white">Next &raquo;</font></a>
-                {% else %}
-                  <a href="" class="btn btn-success" style="float:right;"><font color="white">Finish attempt</font></a>
-                {% endif %}
-                {% endif %}
-
-
-            </div>
-
-        </div>
 
     </div>
-          </form>
+      </form>
+    {% endfor %}
   </div>
 
-  <div class="w-25 p-3">
+  <div class="w-25 p-3" id="invigilator">
+     <!--<img src="{% url 'video_feed' %}" width="160" height="110" class="float-right">-->
+
       <div class="shadow p-2 mb-4 bg-white rounded">
+          <div class="form-group">
+           <video id="stream" width="150" height="80">
+                 <canvas id="capture" width="150" height="80"></canvas>
+           </video>
+           <br>
+           <button id="btn-capture" type="button" class="btn btn-primary justify-content-center">Capture Image</button>
+            <br><br>
+            <div id="snapshot"></div>
+            <input type="hidden" id="imgConverted" name="imgConverted">
+      </div>
         <div class="back">
             <font size="3px" >Exam</font>
         </div>
@@ -198,52 +215,54 @@ span.number{
             </tr>
           </thead>
             <tbody>
+            {% for e in exam_info %}
                 <tr>
-                    <td><font size="2px">Date</font></td>
-                    <td><font size="2px">240 Min</font></td>
+                    <td width="40%"><font size="2px">Date</font></td>
+                    <td><font size="2px">{{e.examDate}}</font></td>
                 </tr>
                 <tr>
                     <td><font size="2px"><div id="duration">Duration</div></font></td>
-                    <td><font size="2px">240 Min</font></td>
+                    <td><font size="2px">{{e.duration}} Min</font></td>
                 </tr>
                 <tr>
-                    <td><font size="2px">Time Left</font></td>
-                    <td><font size="2px">18:40<div id="countdown"><%print ("Heloo")%></div></font>
+                    <td><font size="2px"><b>Time Left</b></font></td>
+                    <td><font size="2px"><div id="displaytimer"><b></b></div>
+                        <input id='timer' type='hidden' name="timer" value=""></font>
 
                     </td>
                 </tr>
+            {% endfor %}
             </tbody>
         </table>
         <div class="back">
             <font size="3px" >Exam Navigation</font>
         </div>
         <div class="navigate">
-            {% for i in all_question.paginator.page_range %}
-                  {% if all_question.number == i %}
-                   <span class="pageactive">{{ i }} <span class="sr-only">(current)</span></span>
-                  {% else %}
-                    <a href="?page={{ i }}">{{ i }}</a>
-                  {% endif %}
+            {% for x in student_question %}
+                <a href="#" class="jump_question" data-target="question{{forloop.counter}}">{{forloop.counter}}</a>
             {% endfor %}
         </div>
       </div>
   </div>
+
 </div>
+
 
 <script>
 $(document).ready(function () {
       $('input[type="radio"]').click(function(){
                 var value= $(this).val();
-                var id = $(this).attr('id');
+                var qid = $(this).attr('id');
                 console.log(value);
-                console.log(id);
+                console.log(qid);
                 $.ajax({
                     url: "{% url 'post_answer' %}",
                     type: 'post',
                     data: {
                         ajax: 1,
                         value: value,
-                        id: id,
+                        qid: qid,
+                        sdID: {{id}},
                         csrfmiddlewaretoken: '{{ csrf_token }}'
                     },
 
@@ -254,6 +273,140 @@ $(document).ready(function () {
                 });
       });
 });
+
+
+$(document).on('click','.jump_question', function(event) {
+    event.preventDefault();
+    var target = "#" + this.getAttribute('data-target');
+    $('html, body').animate({
+        scrollTop: $(target).offset().top
+    }, 1000);
+});
+
+
+// Set the date we're counting down to
+var countDownDate = {{timestamp}};
+console.log(countDownDate);
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get today's date and time
+  var now = new Date().getTime();
+  console.log(now);
+
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+  console.log(distance);
+
+  // Time calculations for days, hours, minutes and seconds
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // Output the result in an element with id="demo"
+  document.getElementById("displaytimer").innerHTML = "<b>" + hours + "h "
+  + minutes + "m " + seconds + "s <b>";
+
+  // If the count down is over, write some text
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("demo").innerHTML = "EXPIRED";
+  }
+}, 1000);
+
+
+// The buttons to start & stop stream and to capture the image
+    //var btnStart = document.getElementById( "btn-start" );
+    //var btnStop = document.getElementById( "btn-stop" );
+    var btnCapture = document.getElementById( "btn-capture" );
+
+    // The stream & capture
+    var stream = document.getElementById( "stream" );
+    var capture = document.getElementById( "capture" );
+    var snapshot = document.getElementById( "snapshot" );
+
+    // The video stream
+    var cameraStream = null;
+
+    btnCapture.addEventListener( "click", captureSnapshot );
+
+    // Attach listeners
+
+    // Start Streaming
+    function startStreaming() {
+
+      var mediaSupport = 'mediaDevices' in navigator;
+
+      if( mediaSupport && null == cameraStream ) {
+
+        navigator.mediaDevices.getUserMedia( { video: true } )
+        .then( function( mediaStream ) {
+
+          cameraStream = mediaStream;
+
+          stream.srcObject = mediaStream;
+
+          stream.play();
+        })
+        .catch( function( err ) {
+
+          console.log( "Unable to access camera: " + err );
+        });
+      }
+      else {
+
+        alert( 'Your browser does not support media devices.' );
+
+        return;
+      }
+    }
+
+    // Stop Streaming
+    function stopStreaming() {
+
+      if( null != cameraStream ) {
+
+        var track = cameraStream.getTracks()[ 0 ];
+
+        track.stop();
+        stream.load();
+
+        cameraStream = null;
+      }
+    }
+
+    function captureSnapshot() {
+
+      if( null != cameraStream ) {
+
+        var ctx = capture.getContext( '2d' );
+        var img = new Image();
+
+        ctx.drawImage( stream, 0, 0, capture.width, capture.height );
+
+        img.src		= capture.toDataURL( "image/png" );
+        img.width	= 370;
+        img.height	= 320;
+        //console.log(capture.toDataURL( "image/png" ));
+        snapshot.innerHTML = '';
+
+        snapshot.appendChild( img );
+        var d1 = capture.toDataURL("image/jpeg");
+        //var res = d1.replace("data:image/png;base64,", "");
+        imgConverted.src = dataURI;
+        console.log(d1);
+        snapshot.innerHTML = '';
+        snapshot.appendChild( img );
+        //$("#image_hidden").val(d1)
+        $("#imgConverted").val(dataURI)
+
+      }
+    }
+    window.onload = function() {
+       //startStreaming();
+       //captureSnapshot();
+    }
 
 </script>
 {% endblock %}

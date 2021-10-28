@@ -244,7 +244,7 @@ a.article:hover {
                     <a href="#"><i class="fas fa-book"></i><span>  My Exams</span></a>
                 </li>
                 <li>
-                   <a href="#"><i class="fas fa-clock"></i><span>  Schedule Exams</span></a>
+                   <a href="{% url 'my_examination' request.user.id  %}"><i class="fas fa-clock"></i><span>  Schedule Exams</span></a>
                 </li>
                  <li>
                    <a href="#"><i class="fas fa-file-alt"></i><span>  My Result</span></a>

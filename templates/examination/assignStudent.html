@@ -115,7 +115,7 @@ span.number{
             <tr>
               <td scope="row">
                 <div class="form-check" id="students">
-                     <input type="checkbox" value="{{student.id}}" id="checkbox{{forloop.counter}}" name="checkbox{{forloop.counter}}" class="student"
+                     <input type="checkbox" value="{{student.user.id}}" id="checkbox{{forloop.counter}}" name="checkbox{{forloop.counter}}" class="student"
                             {% for stud in student_exam %}
                             {% if stud.studentID == student.id %} checked {% endif %}
                             {% endfor %}>

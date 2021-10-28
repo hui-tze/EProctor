@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 
 from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -9,6 +9,10 @@ from .filters import QuestionFilter
 from .models import *
 from student.models import Student
 from .forms import *
+import cv2
+import sys
+from django.http.response import StreamingHttpResponse
+from exam.camera import VideoCamera, IPWebCam, MaskDetect, LiveWebCam
 
 
 # Create your views here.
@@ -205,34 +209,80 @@ def add_examination(request):
     return render(request, 'examination/examinationForm.html', context)
 
 
-def my_examination(request):
-    all_questions = Question.objects.all()
-    all_answer = Answer.objects.all()
-    count = Question.objects.all().count()
-    page = request.GET.get('page', 1)
-    paginator = Paginator(all_questions, 1)
-    try:
-        all_question = paginator.page(page)
-    except PageNotAnInteger:
-        all_question = paginator.page(1)
-    except EmptyPage:
-        all_question = paginator.page(paginator.num_pages)
+def my_examination(request, id):
+    schedule_exam = StudentExam.objects.filter(studentID=id).count()
+    context = {
+        'total_exam': schedule_exam,
+        'id': id
+    }
+    return render(request, 'examination/studentExam.html', context)
+
+
+def my_exam_list(request, id):
+    schedule_exam = StudentExam.objects.filter(studentID=id)
+    all_exams = Exam.objects.all()
+    all_subjects = Subject.objects.all()
+    context = {
+        'my_exam': schedule_exam,
+        'all_exams': all_exams,
+        'all_subjects': all_subjects
+    }
+    return render(request, 'examination/student_examlist.html', context)
+
+
+def exam_rules(request, id):
+    exam = StudentExam.objects.filter(sdID=id)
+    for e in exam:
+        exam_info = Exam.objects.filter(examID=e.examID)
+    all_subjects = Subject.objects.all()
+    if not StudentAnswer.objects.filter(sdID=id).exists():
+        for e in exam_info:
+            all_questions = Question.objects.filter(subject=e.subject, status='A').order_by('?')[:e.quesNum]
+        for ques in all_questions:
+            ques_ans = StudentAnswer(questionID=ques.questionID, sdID=id)
+            ques_ans.save()
 
     context = {
-        'all_question': all_question,
+        'exam_info': exam_info,
+        'all_subjects': all_subjects,
+        'id': id
+    }
+    return render(request, 'examination/examinationRules.html', context)
+
+
+def start_exam(request, id):
+    exam = StudentExam.objects.filter(sdID=id)
+    for e in exam:
+        exam_info = Exam.objects.filter(examID=e.examID)
+    all_questions = Question.objects.all()
+    student_question = StudentAnswer.objects.filter(sdID=id)
+    all_answer = Answer.objects.all()
+    count = StudentAnswer.objects.filter(sdID=id).count()
+    for t in exam_info:
+        dt = datetime.combine(t.examDate, t.endTime)
+        timestamp = datetime.timestamp(dt)*1000
+        print(timestamp)
+
+    context = {
+        'student_question': student_question,
+        'all_questions': all_questions,
         'all_answer': all_answer,
         'count': count,
-        'ob': 240,
-        'sc': 'time.js'
+        'id': id,
+        'exam_info': exam_info,
+        'timestamp': timestamp
     }
+
     return render(request, 'examination/startExam.html', context)
 
 
 def post_answer(request):
     if request.is_ajax():
         choice = request.POST.get('value', None)
+        ques = request.POST.get('qid', None)
+        sdID = request.POST.get('sdID', None)
         print(choice)
-        Question.objects.filter(questionID="202110132").update(questionDesc="MY")
+        StudentAnswer.objects.filter(questionID=ques, sdID=sdID).update(studAns=choice)
         response = {
             'msg': 'Your form has been submitted successfully'  # response message
         }
@@ -275,10 +325,25 @@ def assign_student(request, pk):
                         exam_student_info = StudentExam(examID=pk, studentID=stud, status='P')
                         exam_student_info.save()
                 else:
-                    if StudentExam.objects.filter(studentID=student.id).exists():
-                        studExam = StudentExam.objects.get(studentID=student.id)
+                    if StudentExam.objects.filter(studentID=student.user.id).exists():
+                        studExam = StudentExam.objects.get(studentID=student.user.id)
                         studExam.delete()
                 x += 1
         messages.success(request, "Assign Student Successfully")
         return redirect('/exam/examination')
     return render(request, 'examination/assignStudent.html', context)
+
+
+def gen(camera):
+    while True:
+        frame = camera.get_frame()
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
+
+def video_feed(request):
+    return StreamingHttpResponse(gen(VideoCamera()), content_type='multipart/x-mixed-replace; boundary=frame')
+
+
+def webcam_feed(request):
+    return StreamingHttpResponse(gen(IPWebCam()), content_type='multipart/x-mixed-replace; boundary=frame')

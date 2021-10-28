@@ -16,7 +16,12 @@ urlpatterns = [
     path('examination', views.examination, name='examination'),
     path('add_examination', views.add_examination, name='add_examination'),
     path('assign_student/<str:pk>/', views.assign_student, name='assign_student'),
-    path('my_examination', views.my_examination, name='my_examination'),
+    path('my_examination/<str:id>/', views.my_examination, name='my_examination'),
+    path('my_exam_list/<str:id>/', views.my_exam_list, name='my_exam_list'),
+    path('exam_rules/<str:id>', views.exam_rules, name='exam_rules'),
+    path('start_exam/<str:id>', views.start_exam, name='start_exam'),
     path('post_answer', views.post_answer, name='post_answer'),
     path('validate_code', views.validate_code, name='validate_code'),
+    path('video_feed', views.video_feed, name='video_feed'),
+    path('webcam_feed', views.webcam_feed, name='webcam_feed'),
 ]
