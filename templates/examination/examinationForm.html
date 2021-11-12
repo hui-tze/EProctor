@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'instructor/instructorbase.html' %}
 
 {% block style %}
 table{
@@ -33,7 +33,7 @@ thead {
 {% endblock %}
 
 
-{% block body %}
+{% block content %}
 <script>
     $(function(){
     var dtToday = new Date();
@@ -48,44 +48,52 @@ thead {
 
     var maxDate = year + '-' + month + '-' + day;
     $('#date').attr('min', maxDate);
+
 });
+
+
 </script>
 <div class="shadow p-2 mb-4 bg-white rounded">
     <div class="back">
-        <font size="5px">Add Examination</font>
+        <font size="5px">{% if editExam %} Edit Examination
+                        {% else %} Add Examination {% endif %}</font>
     </div>
- <form method="post" action="{% url 'add_examination' %}">
+     {% if editExam %}
+        <form method="post" action="{% url 'edit_examination' editExam.examID %}">
+     {% else %}
+        <form method="post" action="{% url 'add_examination' %}">
+     {% endif %}
     {% csrf_token %}
   <div class="padding">
   <div class="form-group col-auto row">
       <label for="subject">Subject</label>
       <select id="subject" class="form-control" name="subject" required>
-          {% if not editSub %}
+          {% if not editExam %}
           <option value="">--------</option>
           {% endif %}
           {% for subject in all_subject %}
-          <option value="{{subject.subjectID}}" {% if editQues.subject == subject.subjectID %} selected="selected" {% endif %}>{{subject.subjectCode}} {{subject.subjectName}}</option>
+          <option value="{{subject.subjectID}}" {% if editExam.subject == subject.subjectID %} selected="selected" {% endif %} required>{{subject.subjectCode}} {{subject.subjectName}}</option>
           {% endfor %}
       </select>
   </div>
   <div class="form-group col-5 row">
     <label for="date">Exam Date</label>
-    <input type="date" class="form-control" id="date" name="date" required >
+    <input type="date" class="form-control" id="date" name="date" required {% if editExam %} value="{{ editExam.examDate|date:'Y-m-d' }}" {% endif %}>
   </div>
   <div class="row">
       <div class="form-group col-5">
         <label for="stime">Start Time</label>
-        <input type="time" class="form-control" id="stime" name="stime" required>
+        <input type="time" class="form-control" id="stime" name="stime" required {% if editExam %} value="{{ editExam.startTime|time:'h:i:s' }}" {% endif %}>
       </div>
       <div class="form-group col-5">
         <label for="etime">End Time</label>
-        <input type="time" class="form-control" id="etime" name="etime" required>
+        <input type="time" class="form-control" id="etime" name="etime" required onchange="checkTime()" {% if editExam %} value="{{ editExam.endTime|time:'h:i:s' }}" {% endif %}>
       </div>
   </div>
 
   <div class="form-group col-4 row">
     <label for="num">Number of Question</label>
-    <input type="number" class="form-control" id="num" name="num" required>
+    <input type="number" class="form-control" id="num" name="num" required min="1" {% if editExam %} value="{{editExam.quesNum}}" {% endif %}>
   </div>
 
     {% if editQues %}
@@ -97,8 +105,8 @@ thead {
       </select>
      </div>
      {% endif %}
-     {% if editQues %}
-        <button type="submit" class="btn btn-success">Update Question</button>
+     {% if editExam %}
+        <button type="submit" class="btn btn-success">Update Exam</button>
      {% else %}
         <button type="submit" class="btn btn-success">Add Exam</button>
      {% endif %}
@@ -109,6 +117,50 @@ thead {
 </form>
 </div>
 
+<script>
+$(document).ready(function () {
+        $("#subject").change(function () {
+                var value= $(this).val();
+                console.log(value);
+                $.ajax({
+                    url: "{% url 'get_max' %}",
+                    type: 'post',
+                    data: {
+                        ajax: 1,
+                        value: value,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+
+                    success: function (response) {
+                        console.log(response.max)
+                        $("#num").attr("max", response.max)
+                    }
+                });
+      });
+});
+
+
+$(document).on('click','.jump_question', function(event) {
+    event.preventDefault();
+    var target = "#" + this.getAttribute('data-target');
+    $('html, body').animate({
+        scrollTop: $(target).offset().top
+    }, 1000);
+});
+
+
+function checkTime(){
+     var startTimeValue = document.getElementById("stime").value;
+     var endTimeValue = document.getElementById("etime").value;
+     console.log(startTimeValue);
+
+     if(startTimeValue > endTimeValue) {
+           alert("End Time should be greater than Start Time");
+           return false;
+     }
+            return true;
+}
+</script>
 
 {% endblock %}
 

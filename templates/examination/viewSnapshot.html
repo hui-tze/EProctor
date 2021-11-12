@@ -1,0 +1,79 @@
+{% extends 'instructor/instructorbase.html' %}
+{% load static %}
+{% static "" as baseUrl %}
+
+{% block style %}
+.assign{
+    color: black;
+}
+
+.snap{
+    color: #FFC720;
+}
+
+.paper{
+    color: #F5564A;
+}
+
+.back{
+    padding: 10px;
+    background-color: #3A5898;
+    color: white;
+    border-radius: 10px !important;
+}
+
+img+img{
+    padding-right:5px;
+    padding-bottom: 5px;
+    padding-top:5px;
+}
+{% endblock %}
+
+{% block content %}
+  <div class="shadow p-2 mb-4 bg-white rounded">
+    <div class="back">
+        <font size="5px">
+            Random Snapshot
+        </font>
+    </div>
+
+    {% for r in snapshot %}
+      {% if r.type == type1 %}
+        <img src="{% static "" %}snapshot/{{r.image}}" width="200" height="150">
+      {% endif %}
+    {% endfor %}
+</div>
+
+<div class="shadow p-2 mb-4 bg-white rounded">
+    <div class="back">
+        <font size="5px">
+            Face Not Found
+        </font>
+    </div>
+    <div class="justify-content-center">
+
+    {% for r in snapshot %}
+      {% if r.type == type2 %}
+        <img src="{% static "" %}snapshot/{{r.image}}" width="200" height="150">
+      {% endif %}
+    {% endfor %}
+    </div>
+</div>
+
+
+<div class="shadow p-2 mb-4 bg-white rounded">
+    <div class="back">
+        <font size="5px">
+            Extra People in Frame
+        </font>
+    </div>
+
+    {% for r in snapshot %}
+      {% if r.type == type3 %}
+        <img src="{% static "" %}snapshot/{{r.image}}" alt="" width="200" height="150">
+      {% endif %}
+    {% endfor %}
+
+
+</div>
+{% endblock %}

@@ -96,25 +96,14 @@ span.number{
 
 
 {% block content %}
-<script>
-$(document).on('click', '.delete', function(){
-    return confirm('Are you sure you want to delete this?');
-})
-</script>
 <div class="shadow p-2 mb-4 bg-white rounded">
     <div class="back">
-        {% if result %}
-            <font size="5px">Exam Result</font>
-        {% elif report %}
-            <font size="5px">Generate Report</font>
-        {% else %}
         <font size="5px">Manage Exam</font>
             <a href="{% url 'add_examination' %}">
                         <button type="button" class="btn btn-success float-right">
                             Add Exam
                         </button>
             </a>
-        {% endif %}
     </div>
     <div class="form-outline">
         <form method="get" class="form-horizontal">
@@ -124,17 +113,24 @@ $(document).on('click', '.delete', function(){
                           <select id="subject" class="form-control" name="subject">
                               <option value="">---Subject---</option>
                               {% for subject in all_subject %}
-                              <option value="{{subject.subjectID}}"
-                              {% if
-                              >{{subject.subjectCode}} {{subject.subjectName}}</option>
+                              <option value="{{subject.subjectID}}">{{subject.subjectCode}} {{subject.subjectName}}</option>
                               {% endfor %}
                           </select>
                     </div>
-                    <div class="col-4">
-                        <input type="date" class="form-control" id="date" name="date" placeholder="Exam Date">
+                    <div class="col-3">
+                        <input type="date" class="form-control" id="ques" name="ques" placeholder="Exam Date">
                     </div>
                     <div class="col-auto">
+                        <select id="status" class="form-control" name="status">
+                                 <option value="">---Status---</option>
+                                 <option value="A">Active</option>
+                                 <option value="I">Inactive</option>
+                        </select>
+                    </div>
+
+                    <div class="col-auto">
                         <button type="submit" class="btn btn-primary">Search</button>
+                        <button type="submit" class="btn btn-secondary">Clear</button>
                     </div>
                 </div>
             </div>
@@ -148,7 +144,7 @@ $(document).on('click', '.delete', function(){
           <th scope="col">Subject</th>
           <th scope="col">Date</th>
           <th scope="col">Time</th>
-          <th scope="col">Duration(min)</th>
+          <th scope="col">Duration(hours)</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
@@ -165,16 +161,9 @@ $(document).on('click', '.delete', function(){
               <td>{{exam.startTime}} - {{exam.endTime}}</td>
               <td>{{exam.duration}}</td>
               <td>
-                  {% if result %}
-                  <a class="btn btn-success" role="button" href="{% url 'student_result_list' exam.examID %}">View Result</a></td>
-                  {% elif report %}
-                  <a href="{% url 'report_view' exam.examID %}" class="btn btn-success" target="_blank">Generate</a>
-                  {% else %}
                   <a href="{% url 'assign_student' exam.examID %}" class="assign"><i class="material-icons" title="Assign Student">&#xE7FE;</i></a>
-                  <a href="{% url 'edit_examination' exam.examID %}" class="edit"><i class="material-icons" title="Edit">&#xE254;</i></a>
-                  <a href="{% url 'delete_examination' exam.examID %}" class="delete"><i class="material-icons" title="Delete">&#xE872;</i></a>
-                  {% endif %}
-              </td>
+                  <a href="" class="edit"><i class="material-icons" title="Edit">&#xE254;</i></a>
+                  <a href="" class="delete"><i class="material-icons" title="Delete">&#xE872;</i></a></td>
             </tr>
 
         {% endfor %}

@@ -1,0 +1,110 @@
+{% extends 'instructor/instructorbase.html' %}
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+<style type="text/css">
+      a:link {
+        text-decoration: none;
+      }
+
+      .order-card {
+        color: rgb(255, 255, 255);
+      }
+
+      .bg-c-blue {
+        background: #04868f;
+      }
+
+      .bg-c-green {
+        background:#4C51BF;
+      }
+
+      .bg-c-yellow {
+        background: #F56565;
+      }
+
+      .bg-c-gtx {
+        background:#57717d;
+      }
+
+
+      .card {
+
+        -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+        box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+        margin-bottom: 30px;
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+      }
+
+      .card .card-block {
+        padding: 25px;
+      }
+
+      .order-card i {
+        font-size: 26px;
+      }
+
+      .f-left {
+        float: left;
+      }
+
+      .f-right {
+        float: right;
+      }
+      header {
+      left: 0px;
+      right: 0px;
+    }
+
+    .card{
+    margin-left: 20px;
+    }
+    </style>
+</head>
+
+<div class="container">
+<br/>
+    <div class="row">
+        {% for subject in all_subject %}
+        <div class="card" style="width: 20rem;">
+          <div class="card-header">
+              {{subject.subjectCode}}
+              {{subject.subjectName}}
+          </div>
+          <div class="card-body">
+            <h6 class="card-title">Total Exam(s):
+                {% for e in exam %}
+                    {% if forloop.counter == forloop.parentloop.counter %}
+                        {{e}}
+                    {% endif %}
+                {% endfor %}</h6>
+              <div class="text-right align-bottom">
+                         <a href="{% url 'exam_result' subject.subjectID %}" class="btn btn-primary">View Result</a>
+
+
+              </div>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+  </div>
+
+
+
+<script>
+    function checkQuestion(q, sid){
+        if(q < 5){
+            alert("Subject less than 5 questions. Cannot manage examination!!")
+        }
+        else{
+            var url = "{% url 'examination' '2' %}".replace('2', sid);
+            document.location.href = url;
+        }
+    }
+
+</script>
+
+{% endblock %}

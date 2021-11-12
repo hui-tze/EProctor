@@ -186,9 +186,11 @@ a.article:hover {
     font-family: inherit;
     overflow: hidden;
 	width:100%;
-	height: 94%;
+	height: 100%;
     transition: all 0.3s;
-    padding: 50px;
+    padding: 10px;
+    padding-left:50px;
+    padding-right:50px;
     margin-top: 50px;
 }
 
@@ -223,7 +225,7 @@ a.article:hover {
         {% endblock %}
     </script>
 </head>
-<body>
+<body >
 
 <div class="wrapper">
         <!-- Sidebar  -->
@@ -245,10 +247,14 @@ a.article:hover {
                     <a href="{% url 'studentprofile' request.user.id  %}"><i class="fas fa-user"></i><span>  My Profile</span></a>
                 </li>
                  <li>
+
                     <a href="{% url 'my_examination' request.user.id %}"><i class="fas fa-book"></i><span>  My Exams</span></a>
+
+                    <a href="{% url 'my_examination' request.user.id  %}"><i class="fas fa-clock"></i><span>  My Exams</span></a>
+
                 </li>
                  <li>
-                   <a href="#"><i class="fas fa-file-alt"></i><span>  My Result</span></a>
+                   <a href="{% url 'my_result' request.user.id  %}"><i class="fas fa-file-alt"></i><span>  My Result</span></a>
                 </li>
                 <li>
                     <a href="{% url 'student-view-instructor' %}"><i class="fas fa-phone"></i><span>  Contact</span></a>

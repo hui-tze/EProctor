@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'instructor/instructorbase.html' %}
 
 {% block style %}
 table{
@@ -90,7 +90,7 @@ span.number{
 {% endblock %}
 
 
-{% block body %}
+{% block content %}
 
 <div class = "space"></div>
 <div class="shadow p-2 mb-4 bg-white rounded">
@@ -129,7 +129,6 @@ span.number{
 
                     <div class="col-auto">
                         <button type="submit" class="btn btn-primary">Search</button>
-                        <button type="submit" class="btn btn-secondary">Clear</button>
                     </div>
                 </div>
             </div>
@@ -149,15 +148,15 @@ span.number{
         {% for question in all_question %}
             <tr>
               <th scope="row">{{ forloop.counter }}</th>
-              <td>{{question.questionDesc}}</td>
+              <td>{{question.questionDesc|truncatewords:30}}</td>
                 {% for answer in all_answer %}
                 {% if answer.question == question.questionID %}
                 {% if answer.rightAns == 'T' %}
-              <td>{{answer.answerDesc}}</td>
+              <td>{{ answer.answerDesc }}</td>
                 {% endif %}
                 {% endif %}
                 {% endfor %}
-              <td><a href="{% url 'edit_question' question.questionID %}" class="edit"><i class="material-icons" title="Edit">&#xE254;</i></a>
+              <td width="10%"><a href="{% url 'edit_question' question.questionID %}" class="edit"><i class="material-icons" title="Edit">&#xE254;</i></a>
                   <a href="" class="delete"><i class="material-icons" title="Delete">&#xE872;</i></a></td>
             </tr>
 

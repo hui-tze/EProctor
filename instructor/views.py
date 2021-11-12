@@ -11,7 +11,10 @@ from django.contrib import messages
 from django.contrib.auth.models import Group, User
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
+
 from django.core.mail import send_mail
+from exam.models import *
+
 
 # Create your views here.
 from .forms import UpdateInstructorForm

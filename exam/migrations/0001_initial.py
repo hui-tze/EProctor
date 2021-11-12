@@ -68,4 +68,22 @@ class Migration(migrations.Migration):
                 ('subjectName', models.CharField(max_length=100)),
             ],
         ),
+        migrations.CreateModel(
+            name='StudentAnswer',
+            fields=[
+                ('saID', models.AutoField(primary_key=True, serialize=False)),
+                ('questionID', models.CharField(max_length=20)),
+                ('studAns', models.IntegerField(null=True)),
+                ('sdID', models.IntegerField()),
+            ],
+        ),
+        migrations.CreateModel(
+            name='StudentExam',
+            fields=[
+                ('sdID', models.AutoField(primary_key=True, serialize=False)),
+                ('examID', models.IntegerField()),
+                ('studentID', models.IntegerField()),
+                ('status', models.CharField(max_length=1, null=True)),
+            ],
+        ),
     ]

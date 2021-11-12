@@ -1,3 +1,4 @@
+from urllib import request
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.models import load_model
@@ -30,15 +31,17 @@ class VideoCamera(object):
         # We are using Motion JPEG, but OpenCV defaults to capture raw images,
         # so we must encode it into JPEG in order to correctly display the
         # video stream.
-
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         faces_detected = face_detection_videocam.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=5)
-        if len(faces_detected) <= 0:
-            print("Face not found!")
-            #cv2.imwrite("NewPicture.jpg", image)
         for (x, y, w, h) in faces_detected:
             cv2.rectangle(image, pt1=(x, y), pt2=(x + w, y + h), color=(255, 0, 0), thickness=2)
         frame_flip = cv2.flip(image, 1)
+        if len(faces_detected) <= 0:
+            cv2.putText(frame_flip, 'FACE NOT FOUND!', (50, 50), cv2.FONT_HERSHEY_DUPLEX, 1, (0, 0, 255), 2, cv2.LINE_4, False)
+            cv2.copyMakeBorder(frame_flip, 2, 2, 2, 2, cv2.BORDER_CONSTANT, value=[0, 0, 255])
+            # cv2.imwrite("NewPicture.jpg", image)
+        elif len(faces_detected) > 1:
+            cv2.putText(frame_flip, 'EXTRA PEOPLE IN FRAME!', (50, 50), cv2.FONT_HERSHEY_DUPLEX, 1, (0, 0, 255), 2, cv2.LINE_4, False)
         ret, jpeg = cv2.imencode('.jpg', frame_flip)
         return jpeg.tobytes()
 

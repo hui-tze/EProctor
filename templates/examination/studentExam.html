@@ -91,15 +91,19 @@
 </div>
 
 <div class="dashboard-content">
-<br><br>
-
   <div class="container">
     <div class="row">
       <div class="col-md-4 col-xl-4">
+
         <a href="{% url 'my_exam_list' id %}" style="text-decoration: none;color:white;">
         <div class="card bg-c-orange order-card">
           <div class="card-block">
             <h5 class="m-b-20">Scheduled Exams </h5>
+      <div class="col-md-4 col-xl-3">
+        <a href="{% url 'schedule_exam_list' pk %}" style="text-decoration: none;color:white;">
+        <div class="card bg-c-pink order-card">
+          <div class="card-block">
+            <h6 class="m-b-20">Scheduled Exams </h6>
             <h2 class="text-right"><i class="fas fa-clock f-left"></i><span>{{total_exam}}</span></h2>
           </div>
         </div>
@@ -113,6 +117,13 @@
           <div class="card-block">
             <h5 class="m-b-20">Upcoming Exams </h5>
             <h2 class="text-right"><i class="fas fa-chalkboard-teacher f-left"></i><span>{{total_exam}}</span></h2>
+
+      <div class="col-md-4 col-xl-3">
+        <a href="{% url 'upcoming_exam_list' pk %}" style="text-decoration: none;color:white;">
+        <div class="card bg-c-green order-card">
+          <div class="card-block">
+            <h6 class="m-b-20">Upcoming Exams </h6>
+            <h2 class="text-right"><i class="fas fa-chalkboard-teacher f-left"></i><span>{{upcoming}}</span></h2>
           </div>
         </div>
       </a>
@@ -121,9 +132,8 @@
 
     </div>
   </div>
- </div>
+</div>
 
-<br><br><br><br><br><br><br><br><br><br>
 
 <script src="http://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'instructor/instructorbase.html' %}
 
 
 {% block style %}
@@ -95,7 +95,7 @@ span.number{
 {% endblock %}
 
 
-{% block body %}
+{% block content %}
 <div class="shadow p-2 mb-4 bg-white rounded">
     <div class="back">
         <font size="5px">Assign Student</font>
@@ -117,7 +117,7 @@ span.number{
                 <div class="form-check" id="students">
                      <input type="checkbox" value="{{student.user.id}}" id="checkbox{{forloop.counter}}" name="checkbox{{forloop.counter}}" class="student"
                             {% for stud in student_exam %}
-                            {% if stud.studentID == student.id %} checked {% endif %}
+                            {% if stud.studentID == student.user.id %} checked {% endif %}
                             {% endfor %}>
                 </div>
               </td>
@@ -147,6 +147,8 @@ $(".student").change(function(){
         $('.all').prop('checked', false);
     }
 });
+
+
 </script>
 {% endblock %}
 

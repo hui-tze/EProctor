@@ -29,7 +29,11 @@
 <div class="shadow bg-white rounded">
     <div class="back">
      <h3 style="text-align:center;">
+         {% if edit %}
+            Edit Subject
+         {% else %}
             Add New Subject
+         {% endif %}
      </h3>
         {{form.NON_FIELD_ERRORS}}
     </div>
@@ -57,7 +61,14 @@
                         {% endif %}
                     </div>
                     {% endfor %}
-                    <button type="submit" class="btn btn-success">Add Subject</button>
+
+                    <button type="submit" class="btn btn-success">
+                        {% if edit %}
+                        Update Subject
+                        {% else %}
+                        Add Subject
+                        {% endif %}
+                    </button>
                 </form>
                 <br>
             </div>
