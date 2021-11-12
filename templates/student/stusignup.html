@@ -52,7 +52,7 @@
       <div class="form-row">
         <div class="form-group col-md-5">
           <label for="ic">NRIC</label>
-           {% render_field studentForm.studentIC|attr:'required:true' class="form-control" placeholder="901215021001"%}
+           {% render_field studentForm.studentIC|attr:'required:true' class="form-control" placeholder="901215021001" minlength="12"%}
         </div>
         <div class="form-group col-md-5">
           <label for="dob">Date of birth</label>
@@ -63,7 +63,7 @@
       <div class="form-row">
          <div class="form-group col-md-5">
           <label for="contact">Contact Number</label>
-            {% render_field studentForm.studentContact|attr:'required:true' class="form-control" placeholder="0111234999"%}
+            {% render_field studentForm.studentContact|attr:'required:true' class="form-control" placeholder="0111234999" minlength="10" %}
         </div>
         <div class="form-group col-md-5">
           <label for="gender">Gender</label>
@@ -81,14 +81,20 @@
     <div class="form-row">
         <div class="form-group col-md-5">
           <label for="password" type="password">Password</label>
-            {% render_field userForm.password|attr:'required:true' class="form-control"%}
+            {% render_field userForm.password|attr:'required:true' class="form-control" minlength="8" %}
         </div>
 
         <div class="form-group col-md-5">
-          <label for="password" type="password">Confirm Password</label>
-            {% render_field userForm.password|attr:'required:true' class="form-control"%}
+          <label for="password" type="password">Profile Picture</label>
+            {% render_field studentForm.studentPic|attr:'required:true' class="form-control"%}
         </div>
-    </div>
+</div>
+        <br>
+        <label style="margin-left:4%; color:red;"><b>Take note: Dataset for identity verification will be generated upon signing up.<br>
+         Please do not shut down this process. Thank you!</b></label>
+
+        <br>
+
     </br>
     {% for message in messages %}
     <div class="container-fluid p-0">
@@ -110,3 +116,97 @@
 {% include "exam/footer.html" %}
 </body>
 </html>
+
+<script>
+ // The buttons to start & stop stream and to capture the image
+    //var btnStart = document.getElementById( "btn-start" );
+    //var btnStop = document.getElementById( "btn-stop" );
+    var btnCapture = document.getElementById( "btn-capture" );
+
+    // The stream & capture
+    var stream = document.getElementById( "stream" );
+    var capture = document.getElementById( "capture" );
+    var snapshot = document.getElementById( "snapshot" );
+
+    // The video stream
+    var cameraStream = null;
+
+    btnCapture.addEventListener( "click", captureSnapshot );
+
+    // Attach listeners
+
+    // Start Streaming
+    function startStreaming() {
+
+      var mediaSupport = 'mediaDevices' in navigator;
+
+      if( mediaSupport && null == cameraStream ) {
+
+        navigator.mediaDevices.getUserMedia( { video: true } )
+        .then( function( mediaStream ) {
+
+          cameraStream = mediaStream;
+
+          stream.srcObject = mediaStream;
+
+          stream.play();
+        })
+        .catch( function( err ) {
+
+          console.log( "Unable to access camera: " + err );
+        });
+      }
+      else {
+
+        alert( 'Your browser does not support media devices.' );
+
+        return;
+      }
+    }
+
+    // Stop Streaming
+    function stopStreaming() {
+
+      if( null != cameraStream ) {
+
+        var track = cameraStream.getTracks()[ 0 ];
+
+        track.stop();
+        stream.load();
+
+        cameraStream = null;
+      }
+    }
+
+    function captureSnapshot() {
+
+      if( null != cameraStream ) {
+
+        var ctx = capture.getContext( '2d' );
+        var img = new Image();
+
+        ctx.drawImage( stream, 0, 0, capture.width, capture.height );
+
+        img.src		= capture.toDataURL( "image/png" );
+        img.width	= 370;
+        img.height	= 320;
+        //console.log(capture.toDataURL( "image/png" ));
+        snapshot.innerHTML = '';
+
+        snapshot.appendChild( img );
+        var d1 = capture.toDataURL("image/jpeg");
+        //var res = d1.replace("data:image/png;base64,", "");
+        imgConverted.src = dataURI;
+        console.log(d1);
+        snapshot.innerHTML = '';
+        snapshot.appendChild( img );
+        //$("#image_hidden").val(d1)
+        $("#imgConverted").val(dataURI)
+
+      }
+    }
+    window.onload = function() {
+       startStreaming();
+       captureSnapshot();
+    }
+    </script>

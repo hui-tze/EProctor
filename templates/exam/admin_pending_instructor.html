@@ -18,20 +18,46 @@
     .row {
       margin: 100px;
     }
+
+        .container{
+        position:relative;
+        text-align:center;
+    }
+
+    .dashboard{
+    background-color: #3A5898;
+    border-radius: 10px;
+    height:42px;
+    text-align:center;
+    position:static;
+}
+
+.dashboard-content{
+    position:static;
+    background-color: white;
+    border-radius: 10px;
+    height:80%;
+    width:100%;
+}
+
   </style>
 </head>
-<br><br>
+
+<div class="dashboard">
+<p style="color:white;">Pending Instructors</p>
+</div>
+
+<div class="dashboard-content">
+  <br>
 <div class="container">
   <div class="panel panel-primary">
     <div class="panel-heading">
-      <h6 class="panel-title">Pending Teachers</h6>
     </div>
-    <table class="table table-hover table-bordered" id="dev-table">
+    <table class="table table-hover table-striped" id="dev-table">
       <thead>
         <tr>
-
+          <th>No</th>
           <th>Name</th>
-          <th>Photo</th>
           <th>Contact</th>
           <th>Address</th>
          
@@ -40,9 +66,8 @@
       </thead>
       {% for ins in instructors %}
       <tr>
-
+        <th scope="row">{{ forloop.counter }}</th>
         <td> {{ins.get_name}}</td>
-        <td> <img src="{% static ins.profile_pic.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
         <td>{{ins.instructorContact}}</td>
         <td>{{ins.instructorAddress}}</td>
         
@@ -53,6 +78,6 @@
     </table>
   </div>
 </div>
+</div>
 
-<br><br><br><br><br><br>
 {% endblock content %}

@@ -112,7 +112,7 @@ color:#3A5898;
                     <hr class="my-4" style="background-color:gray;">
 
                     <p>New user? Sign up <a href="/student/stusignup"><u>here</u></a>.</p>
-                    <p>Forgot Password? Click <a href="/password_reset"><u>here</u></a>.</p>
+                    <p>Forgot Password? Click <a href="{% url 'user_acc_verification' %}"><u>here</u></a>.</p>
 
                 </form>
             </div>
@@ -122,9 +122,9 @@ color:#3A5898;
 </div>
 <br><br><br><br><br><br><br><br><br>
 <br><br><br><br><br>
- <br><br><br><br><br>
+ <br><br><br><br><br><br><br><br>
 {% for message in messages %}
-    <div class="container-fluid p-0">
+    <div class="container-fluid p-7">
   <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
@@ -133,7 +133,7 @@ color:#3A5898;
   </div>
 </div>
 {% endfor %}
-<br><br><br><br><br>
+<br><br>
 {% include "exam/footer.html" %}
 </body>
 </html>

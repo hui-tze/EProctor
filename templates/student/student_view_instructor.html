@@ -1,0 +1,100 @@
+{% extends 'student/studentbase.html' %}
+{% block content %}
+{%load static%}
+
+<head>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+  <style media="screen">
+    a:link {
+      text-decoration: none;
+    }
+
+    h6 {
+      text-align: center;
+    }
+
+    .panel-title{
+      color:black;
+    }
+
+    table{
+    border-radius: 25px !important;
+    }
+
+    .row {
+      margin: 100px;
+    }
+
+    .order-card {
+        color: rgb(255, 255, 255);
+      }
+
+    .container{
+        position:relative;
+        text-align:center;
+    }
+
+      header {
+      left: 0px;
+      right: 0px;
+    }
+
+    .dashboard{
+    background-color: #3A5898;
+    border-radius: 10px;
+    height:42px;
+    text-align:center;
+    position:static;
+  }
+
+  .dashboard-content{
+    position:static;
+    border-radius: 10px;
+    background-color:white;
+    height:80%;
+    width:100%;
+  }
+  </style>
+</head>
+
+<div class="dashboard">
+<p style="color:white;">Contact</p>
+</div>
+<div class="dashboard-content">
+<br>
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h5 class="panel-title" style="text-align:center;">Instructors Contact</h5>
+    </div>
+    <table class="table table-hover table-striped" id="dev-table">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Name</th>
+          <th>Email Address</th>
+          <th>Contact Number</th>
+          <th>Address</th>
+        </tr>
+      </thead>
+      {% for ins in instructors %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ins.get_name}}</td>
+        <td><a href="mailto:{{ins.instructorEmail}}">{{ins.instructorEmail}}</a></td>
+        <td>{{ins.instructorContact}}</td>
+        <td>{{ins.instructorAddress}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <br><br>
+    <h5 class="panel-title" style="text-align:center;">Please contact E-proctor admin <a href="mailto:shannenong1212@gmail.com" style="color:blue;"><u>here</u></a> for any enquiries.</h5>
+
+  </div>
+</div>
+</div>
+
+{% endblock content %}

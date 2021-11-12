@@ -18,28 +18,31 @@
   
       .bg-c-blue {
         background: #04868f;
+        position:static;
       }
   
       .bg-c-green {
         background: #607d8b;
+        position:static;
       }
   
       .bg-c-yellow {
         background: #F56565;
+        position:static;
       }
   
       .bg-c-pink {
         background: #663a30;
+        position:static;
       }
   
   
       .card {
-        
         -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
         box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
-        margin-bottom: 30px;
         -webkit-transition: all 0.3s ease-in-out;
         transition: all 0.3s ease-in-out;
+        margin: 5%;
       }
   
       .card .card-block {
@@ -61,17 +64,43 @@
       left: 0px;
       right: 0px;
     }
+
+    .container{
+        position:relative;
+        margin-left:18%;
+        text-align:center;
+    }
+
+    .dashboard{
+    background-color: #3A5898;
+    border-radius: 10px;
+    height:42px;
+    text-align:center;
+    position:static;
+}
+
+.dashboard-content{
+    position:static;
+    background-color: #E5E5E5;
+    border-radius: 10px;
+    height:80%;
+    width:100%;
+}
     </style>
   </head>
-<br><br>
 
+<div class="dashboard">
+<p style="color:white;">Instructors</p>
+</div>
+<div class="dashboard-content">
+<br><br>
   <div class="container">
     <div class="row">
       <div class="col-md-4 col-xl-4">
-        <a href="admin-view-teacher" style="text-decoration: none;color:white;">
+        <a href="admin-view-instructor" style="text-decoration: none;color:white;">
         <div class="card bg-c-blue order-card">
           <div class="card-block">
-            <h6 class="m-b-20"> Total Approved Teacher </h6>
+            <h5 class="m-b-20"> Total Approved Instructor </h5>
             <h2 class="text-right"><i class="fas fa-chalkboard-teacher f-left"></i><span>{{total_teacher}}</span></h2>
           </div>
         </div>
@@ -82,7 +111,7 @@
         <a href="admin-view-pending-instructor" style="text-decoration: none;color:white;">
         <div class="card bg-c-yellow order-card">
           <div class="card-block">
-            <h6 class="m-b-20">Total Pending Teacher </h6>
+            <h5 class="m-b-20">Total Pending Instructor </h5>
             <h2 class="text-right"><i class="fas fa-sync-alt f-left"></i><span>{{pending_teacher}}</span></h2>
           </div>
         </div>
@@ -92,9 +121,7 @@
      
     </div>
   </div>
-
-
-<br><br><br><br><br><br><br><br><br><br>
+</div>
 
 <script src="http://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 

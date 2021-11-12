@@ -24,6 +24,9 @@ MESSAGE_TAGS = {
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
+STATIC_DIR=os.path.join(BASE_DIR,'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 # Quick-start development settings - unsuitable for production
@@ -141,7 +144,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [(os.path.join(BASE_DIR, 'static'))]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+MEDIA_URL = '/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -149,7 +153,4 @@ STATICFILES_DIRS = [(os.path.join(BASE_DIR, 'static'))]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-AWS_ACCESS_KEY_ID = 'don45nogo45ouyho45hy5'
-AWS_SECRET_ACCESS_KEY = 'orebgojtiopj45tpngpnerpg'
-AWS_SES_REGION_NAME = 'ap-southeast-1'
-AWS_SES_REGION_ENDPOINT ='email.ap-southeast-1.amazonaws.com'
+# EMAIL_BACKEND = 'django_ses.SESBackend'

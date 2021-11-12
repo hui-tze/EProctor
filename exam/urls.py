@@ -15,6 +15,7 @@ urlpatterns = [
 
     path('examination', views.examination, name='examination'),
     path('add_examination', views.add_examination, name='add_examination'),
+
     path('assign_student/<str:pk>/', views.assign_student, name='assign_student'),
     path('my_examination/<str:id>/', views.my_examination, name='my_examination'),
     path('my_exam_list/<str:id>/', views.my_exam_list, name='my_exam_list'),
@@ -24,4 +25,11 @@ urlpatterns = [
     path('validate_code', views.validate_code, name='validate_code'),
     path('video_feed', views.video_feed, name='video_feed'),
     path('webcam_feed', views.webcam_feed, name='webcam_feed'),
+
+    path('my_examination', views.my_examination, name='my_examination'),
+    path('verification_before_exam/<str:id>', views.verification_before_exam, name='verification_before_exam'),
+    path('validate_code', views.validate_code, name='validate_code'),
+    path('verification_exam/<str:id>', views.verification_exam, name='verification_exam'),
+    path('successful_verification/<str:id>', views.successful_verification, name='successful_verification'),
+
 ]

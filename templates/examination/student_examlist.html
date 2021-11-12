@@ -100,7 +100,7 @@
               <td>{{exam.startTime}} - {{exam.endTime}}</td>
               <td>{{exam.duration}}</td>
               <td>
-                  <a class="btn btn-success" role="button" href="{% url 'exam_rules' myexam.sdID %}">Attempt</a></td>
+                  <a class="btn btn-success" role="button" href="{% url 'verification_before_exam' myexam.sdID %}">Attempt</a></td>
             </tr>
         {% endif %}
         {% endfor %}

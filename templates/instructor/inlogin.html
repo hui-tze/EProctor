@@ -113,17 +113,15 @@ color:#3A5898;
                     <hr class="my-4" style="background-color:gray;">
 
                     <p>New user? Sign up <a href="/instructor/insignup"><u>here</u></a>.</p>
-                    <p>Forgot Password? Click <a href="#">here</a>.</p>
+                    <p>Forgot Password? Click <a href="{% url 'user_acc_verification' %}"><u>here</u></a>.</p>
 
                 </form>
             </div>
         </div>
     </div>
 </div>
-<br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br>
- <br><br><br><br><br>
-{% for message in messages %}
+
+ {% for message in messages %}
     <div class="container-fluid p-0">
   <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -133,6 +131,11 @@ color:#3A5898;
   </div>
 </div>
 {% endfor %}
+
+<br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br>
+ <br><br><br><br><br>
+
 <br><br><br><br><br>
 {% include "exam/footer.html" %}
 </body>

@@ -1,5 +1,7 @@
 from django.core.exceptions import NON_FIELD_ERRORS
 from django.forms import ModelForm, widgets, DateInput
+
+from student.models import Student
 from .models import *
 from django import forms
 
@@ -30,4 +32,3 @@ class ExamForm(ModelForm):
     widgets = {
         'examDate': forms.DateField(widget=forms.SelectDateWidget())
     }
-

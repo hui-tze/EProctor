@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
     <style type="text/css">
-      a:link {
+           a:link {
         text-decoration: none;
       }
 
@@ -16,32 +16,40 @@
 
       .bg-c-blue {
         background: #04868f;
+        position:static;
       }
 
       .bg-c-green {
         background:#4C51BF;
+        position:static;
       }
 
       .bg-c-yellow {
         background: #F56565;
+        position:static;
       }
 
-      .bg-c-pink {
-        background:#3186ca;
+      .bg-c-gtx {
+        background:#57717d;
+        position:static;
       }
 
+    .container{
+        position:relative;
+        margin-left:18%;
+        text-align:center;
+    }
 
       .card {
-
         -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
         box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
-        margin-bottom: 30px;
         -webkit-transition: all 0.3s ease-in-out;
         transition: all 0.3s ease-in-out;
+        margin: 5%;
       }
 
       .card .card-block {
-        padding: 25px;
+        padding: 30px;
       }
 
       .order-card i {
@@ -53,37 +61,57 @@
       }
 
       .f-right {
-        float: right;
+        float: left;
       }
+
       header {
       left: 0px;
       right: 0px;
     }
+
+    .dashboard{
+    background-color: #3A5898;
+    border-radius: 10px;
+    height:42px;
+    text-align:center;
+    position:static;
+}
+
+.dashboard-content{
+    position:static;
+    background-color: #E5E5E5;
+    border-radius: 10px;
+    height:80%;
+    width:100%;
+}
     </style>
   </head>
-
+<div class="dashboard">
+<p style="color:white;">Dashboard</p>
+</div>
+<div class="dashboard-content">
 <br><br>
-
   <div class="container">
     <div class="row">
-      <div class="col-md-4 col-xl-3">
-        <a href="admin-view-student" style="text-decoration: none;color:white;">
-        <div class="card bg-c-pink order-card">
+
+      <div class="col-md-4 col-xl-4">
+        <a href="#" style="text-decoration: none;color:white;">
+        <div class="card bg-c-gtx order-card">
           <div class="card-block">
-            <h6 class="m-b-20">Registered Students </h6>
-            <h2 class="text-right"><i class="fas fa-user-graduate f-left"></i><span>{{total_student}}</span></h2>
+            <h5 class="m-b-20">Total Subjects </h5>
+            <h2 class="text-right"><i class="fas fa-chalkboard-teacher f-left"></i><span>{{subject}}</span></h2>
           </div>
         </div>
       </a>
       </div>
 
 
-      <div class="col-md-4 col-xl-3">
-        <a href="admin-view-teacher" style="text-decoration: none;color:white;">
+      <div class="col-md-4 col-xl-4">
+        <a href="#" style="text-decoration: none;color:white;">
         <div class="card bg-c-green order-card">
           <div class="card-block">
-            <h6 class="m-b-20">Total Teachers </h6>
-            <h2 class="text-right"><i class="fas fa-chalkboard-teacher f-left"></i><span>{{total_teacher}}</span></h2>
+            <h5 class="m-b-20">Total Exams</h5>
+            <h2 class="text-right"><i class="fas fa-chalkboard-teacher f-left"></i><span>{{exam}}</span></h2>
           </div>
         </div>
       </a>
@@ -92,9 +120,7 @@
 
     </div>
   </div>
-
-
-<br><br><br><br><br><br><br><br><br><br>
+</div>
 
 <script src="http://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 

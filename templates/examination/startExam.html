@@ -160,10 +160,15 @@ hr{
               {% endfor %}
           </div>
               <table class="table table-striped">
+
               <tbody>
 
             {% for answer in all_answer %}
                 {% if ques.questionID == answer.question %}
+
+            {% for answer in all_answer %}
+              <tbody>
+                {% if question.questionID == answer.question %}
                 <tr><td>
 
 
@@ -185,14 +190,15 @@ hr{
             </table>
         </div>
 
-
+        {% endif %}
+          {% endfor %}
     </div>
       </form>
     {% endfor %}
   </div>
 
   <div class="w-25 p-3" id="invigilator">
-     <!--<img src="{% url 'video_feed' %}" width="160" height="110" class="float-right">-->
+     <img src="{% url 'video_feed' %}" width="160" height="110" class="float-right">
 
       <div class="shadow p-2 mb-4 bg-white rounded">
           <div class="form-group">

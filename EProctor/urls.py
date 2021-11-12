@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import include, path
 from EProctor import views
 
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('exam/', include('exam.urls')),
@@ -28,8 +30,14 @@ urlpatterns = [
     path('admindashboard', views.admin_dashboard_view,name='exam-dashboard'),
     path('admininstructor', views.admin_instructor_view,name='admin-instructor'),
     path('admin-view-pending-instructor', views.admin_view_pending_instructor_view,name='admin-view-pending-instructor'),
+    path('admin-view-instructor', views.admin_view_instructor_view,name='admin-view-instructor'),
+    path('admin-view-student', views.admin_view_student_view,name='admin-view-student'),
     path('approve-instructor/<int:pk>', views.approve_instructor_view,name='approve-instructor'),
     path('reject-teacher/<int:pk>', views.reject_instructor_view,name='reject-teacher'),
     path('adminlogout', views.admin_logout_request,name='adminlogout'),
-    path("password_reset", views.password_reset_request, name="password_reset")
+    path('change_password/<int:pk>', views.change_password_request, name="change_password"),
+    path('reset_password/<int:pk>', views.reset_password_request, name="reset_password"),
+    path('user_acc_verification', views.user_acc_verification, name="user_acc_verification"),
+    path('training_dataset', views.train, name="training_dataset")
 ]
+

@@ -1,10 +1,132 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'instructor/instructorbase.html' %}
+{% load widget_tweaks %}
+{% load static %}
 
-</body>
-</html>
+{% block style %}
+table{
+    border-radius: 25px !important;
+}
+.btnc{
+    background-color: #3A5898;
+    color: white;
+}
+
+.space{
+    height: 10px
+}
+
+.profile{
+    background-color: #3A5898;
+    border-radius: 10px;
+    height:42px;
+    text-align:center;
+}
+
+.profile-content{
+    background-color: #E5E5E5;
+    border-radius: 10px;
+    height:100%;
+    text-align:center;
+}
+
+.profile-content .p{
+color:black;
+}
+
+div.form-group{
+text-align: left;
+margin-left:5%;
+position: static;
+}
+
+span.details{
+display: inline-block;
+border: 1px solid black;
+width: 280px;
+border-radius:8px;
+margin-left:20px;
+background-color:white;
+text-align:center;}
+{% endblock %}
+
+{% block content %}
+
+{% for message in messages %}
+<div class="container-fluid p-0">
+  <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {{ message }}
+  </div>
+</div>
+{% endfor %}
+<div class="profile">
+<p style="color:white;">My Profile</p>
+</div>
+
+<form method='POST' enctype="multipart/form-data">
+<div class="profile-content">
+<div class="form-row">
+
+{%csrf_token%}
+
+     <div class="form-group col-md-5">
+         <br>
+          <label for="first_name"><b>First name:</b></label>
+         <span class="form-control">{{request.user.first_name}}</span>
+        </div>
+
+    <div class="form-group col-md-5">
+         <br>
+          <label for="first_name"><b>Last name:</b></label>
+         <span class="form-control">{{request.user.last_name}}</span>
+        </div>
+
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-5">
+
+          <label for="username"><b>Username:</b></label>
+            <span class="form-control">{{request.user.username}}</span>
+        </div>
+        <div class="form-group col-md-5">
+
+          <label for="ic"><b>NRIC:</b></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="form-control">{{ins.instructorIC}}</span>
+        </div>
+      </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-5">
+
+          <label for="email_address"><b>Email Address: </b></label>
+           {% render_field profile_form.instructorEmail|attr:'required:true'  class="form-control" placeholder="First Name" %}
+        </div>
+
+        <div class="form-group col-md-5">
+
+          <label for="contact_number"><b>Contact Number: </b></label>
+           {% render_field profile_form.instructorContact|attr:'required:true'  class="form-control" placeholder="First Name" minlength="10"%}
+        </div>
+      </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-7">
+          <label for="address"><b>Address: </b></label>
+            {% render_field profile_form.instructorAddress|attr:'required:true'  class="form-control" placeholder="First Name" %}
+        </div>
+      </div>
+
+    <br>
+    <p style="color:black; text-align:left;margin-left:5%;">Change Password? Click <a href="{% url 'change_password' request.user.id %}"><u>here</u></a>.</p>
+
+    <button type="submit" class="btn btn-success">Confirm</button>
+    <br><br>
+
+</div>
+</div>
+</form>
+
+{% endblock %}

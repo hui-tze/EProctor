@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
 
     <style media="screen">
-    .jumbotron {
+    div.jumbotron {
       margin-top: 0px;
       margin-bottom: 0px;
+      text-align: center;
     }
 
     .jumbotron h1 {
       text-align: center;
     }
+
 
   </style>
 
@@ -25,10 +27,10 @@
     <p class="lead">Welcome to ACCA E-proctor System</p>
     <hr class="my-4">
     <p class="lead">
-      <a class="btn btn-primary" style="border-radius:0px;" href="/student/stusignup" role="button">Sign Up</a>
-      <a class="btn btn-success" style="border-radius:0px;" href="/student/stulogin" role="button">Sign In</a>
+      <a class="btn btn-primary" href="/student/stusignup" role="button">Sign Up</a>
+      <a class="btn btn-success" href="/student/stulogin" role="button">Sign In</a>
     </p>
-    <br><br><br><br>
+    <br><br><br>
   </div>
   {% include "exam/footer.html" %}
 </body>

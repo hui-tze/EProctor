@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <title>E-Proctor</title>
@@ -86,7 +87,7 @@ a:focus {
 
 #sidebar ul.components {
     padding: 20px 0;
-    border-bottom: 1px solid #47748b;
+    border: 1px solid #47748b;
 }
 
 #sidebar ul p {
@@ -226,16 +227,19 @@ a.article:hover {
         <!-- Sidebar  -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h3>Bootstrap Sidebar</h3>
+                <i class="fa fa-bars"></i>
+                <center>
+                    <img src="{% static "image/instructor.png" %}" width="100" height="100" style="margin-top:20px;">
+                    <p style="color:white;margin-top:10px;margin-bottom:0px;">Hi, {{request.user.first_name}}</p>
+                </center>
             </div>
 
             <ul class="list-unstyled components">
-                <p>Hi, {{request.user.first_name}}</p>
                 <li class="active">
                     <a href="/instructor/insdashboard"><i class="fas fa-tachometer-alt"></i><span>  Dashboard</span></a>
                 </li>
                 <li>
-                    <a href="#"><i class="fas fa-user"></i><span>  My Profile</span></a>
+                    <a href="{% url 'instructorprofile' request.user.id  %}"><i class="fas fa-user"></i><span>  My Profile</span></a>
                 </li>
                  <li>
                      <a href="/exam/subject"><i class="fas fa-book"></i><span>  Subject</span></a>
@@ -245,6 +249,9 @@ a.article:hover {
                 </li>
                 <li>
                     <a href="/exam/examination"><i class="fas fa-clock"></i><span>  Examinations</span></a>
+                </li>
+                <li>
+                    <a href="/instructor/instructor-view-student"><i class="fas fa-user-graduate"></i><span>  Students</span></a>
                 </li>
                 <li>
                     <a href="/instructor/inslogout"><i class="fas fa-sign-out-alt"></i><span>  Logout</span></a>

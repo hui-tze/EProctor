@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <title>E-Proctor</title>
@@ -11,6 +11,7 @@
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <style>
     @import "https://fonts.googleapis.com/css?family=Baloo Chettan 2:300,400,500,600,700";
 body {
@@ -69,8 +70,7 @@ a:focus {
     color: #fff;
     transition: all 0.3s;
     height: 100%;
-    bottom: 0;
-    left: 0;
+    margin-bottom:10%;
     overflow: hidden;
     position:fixed;
 }
@@ -86,7 +86,8 @@ a:focus {
 
 #sidebar ul.components {
     padding: 20px 0;
-    border-bottom: 1px solid #47748b;
+    border: 1px solid #47748b;
+
 }
 
 #sidebar ul p {
@@ -105,6 +106,7 @@ a:focus {
     color: #7386D5;
     background: #fff;
 }
+
 
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
@@ -226,35 +228,35 @@ a.article:hover {
 <div class="wrapper">
         <!-- Sidebar  -->
         <nav id="sidebar">
+            <div>
+            <i class="fa fa-bars" style="font-size: 0.9em;"></i>
+                </div>
             <div class="sidebar-header">
-                <i class="fa fa-bars"></i>
-                <h3>Bootstrap Sidebar</h3>
-            </div>
-
+                <center>
+                <img src="{% static request.user.student.studentPic.url %}" alt="Student Pic" width="90" height="120">
+                    <p style="color:white;margin-top:10px;margin-bottom:0px;">Hi, {{request.user.first_name}}</p>
+                </center>
+                </div>
             <ul class="list-unstyled components">
-                <p>Hi, {{request.user.first_name}}</p>
                 <li class="active">
                     <a href="/student/studashboard"><i class="fas fa-tachometer-alt"></i><span>  Dashboard</span></a>
                 </li>
                 <li>
                     <a href="{% url 'studentprofile' request.user.id  %}"><i class="fas fa-user"></i><span>  My Profile</span></a>
-
                 </li>
                  <li>
-                    <a href="#"><i class="fas fa-book"></i><span>  My Exams</span></a>
-                </li>
-                <li>
-                   <a href="{% url 'my_examination' request.user.id  %}"><i class="fas fa-clock"></i><span>  Schedule Exams</span></a>
+                    <a href="{% url 'my_examination' request.user.id %}"><i class="fas fa-book"></i><span>  My Exams</span></a>
                 </li>
                  <li>
                    <a href="#"><i class="fas fa-file-alt"></i><span>  My Result</span></a>
                 </li>
                 <li>
+                    <a href="{% url 'student-view-instructor' %}"><i class="fas fa-phone"></i><span>  Contact</span></a>
+                </li>
+                <li>
                     <a href="/student/stulogout"><i class="fas fa-sign-out-alt"></i><span>  Logout</span></a>
                 </li>
             </ul>
-
-
         </nav>
 
         <!-- Page Content  -->
@@ -269,6 +271,8 @@ a.article:hover {
             </div>
         </div>
     </div>
+
 </div>
+  {% include "exam/footer.html" %}
 </body>
 </html>

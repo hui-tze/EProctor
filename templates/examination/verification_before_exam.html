@@ -1,0 +1,130 @@
+{% extends 'student/studentbase.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block style %}
+table{
+    border-radius: 25px !important;
+}
+.btnc{
+    background-color: #3A5898;
+    color: white;
+}
+
+.space{
+    height: 10px
+}
+
+.profile{
+    background-color: #3A5898;
+    border-radius: 10px;
+    height:42px;
+    text-align:center;
+}
+
+.profile-content{
+    background-color: #E5E5E5;
+    border-radius: 10px;
+    height:90%;
+    text-align:center;
+}
+
+.profile-content .p{
+color:black;
+}
+
+div.form-group{
+text-align: left;
+margin-left:8%;
+position: static;
+}
+
+span.details{
+display: inline-block;
+border: 1px solid black;
+width: 280px;
+border-radius:8px;
+margin-left:20px;
+background-color:white;
+text-align:center;}
+{% endblock %}
+
+{% block content %}
+
+{% for message in messages %}
+<div class="container-fluid p-0">
+  <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {{ message }}
+  </div>
+</div>
+{% endfor %}
+<div class="profile">
+<p style="color:white;">Verification Before Exam</p>
+</div>
+<form method='POST' enctype="multipart/form-data">
+<div class="profile-content">
+    <br>
+    <div>
+        <img src="{% static request.user.student.studentPic.url %}" alt="Profile Pic"  width="100" height="130"></img>
+    </div>
+    <br>
+<div class="form-row">
+{%csrf_token%}
+        <div class="form-group col-md-5">
+            <br>
+            <label for="gender"><b>Name: </b></label>
+             <span class="details">{{request.user.get_name}} {{request.user.first_name}}</span>
+        </div>
+
+        <div class="form-group col-md-5">
+            <br>
+            <label for="ic"><b>NRIC: {{user_name}}</b></label>
+            <span class="details">{{request.user.student.studentIC}}</span>
+        </div>
+
+    </div>
+    <br>
+    <div>
+    <a class="btn btn-primary" href="{% url 'verification_exam' id %}" id="verify" name="verify" style="visibility: visible;" >Verify</a>
+    </div>
+    <br><br>
+</div>
+</div>
+</form>
+
+{% endblock %}
+
+<script type="text/javascript">
+
+var btnTest = document.getElementById("test");
+btnTest.addEventListener("click", function() {
+	document.getElementById("proceed").style.visibility = "visible";
+    document.getElementById("verify").style.visibility = "hidden";
+}, false);
+
+function verifyFunction(){
+    document.getElementById("proceed").style.visibility = "visible";
+    document.getElementById("verify").style.visibility = "hidden";
+
+    var username = request.user.username;
+    if ({{user_name}} == username){
+        btnVerify.style.visibility = "hidden";
+    }
+
+}
+
+$("a#verify").click(function(){
+   document.getElementById("proceed").style.visibility = "visible";
+    document.getElementById("verify").style.visibility = "hidden";
+});
+
+$("button#test").click(function(){
+    alert("Hello! I am an alert box!!");
+   document.getElementById("proceed").style.visibility = "visible";
+});
+
+</script>
+

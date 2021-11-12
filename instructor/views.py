@@ -1,15 +1,20 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseRedirect
 
+from EProctor.views import is_student
+from exam.models import Subject, Exam, Question
+from student.forms import UpdateStudentForm
 from student.models import Student
 from . import forms
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.core.mail import send_mail
 
 # Create your views here.
+from .forms import UpdateInstructorForm
 from .models import Instructor
 
 
@@ -33,6 +38,7 @@ def instructor_signup_view(request):
             ins.save()
             my_instructor_group = Group.objects.get_or_create(name='INSTRUCTOR')
             my_instructor_group[0].user_set.add(user)
+            return redirect('/instructor/inlogin')
         else:
             messages.success(request, "Unsuccessful sign up")
     return render(request, 'instructor/insignup.html', context=mydict)
@@ -72,11 +78,48 @@ def instructor_login_view(request):
 @user_passes_test(is_instructor)
 def instructor_dashboard_view(request):
     context = {
-
-        'total_student': Student.objects.all().count()
+        'total_student': Student.objects.all().count(),
+        'total_subject': Subject.objects.all().count(),
+        'total_exam': Exam.objects.all().count(),
+        'total_question': Question.objects.all().count()
     }
     return render(request, 'instructor/instructor_dashboard.html', context=context)
 
+@login_required(login_url='inslogin')
+@user_passes_test(is_instructor)
+def instructor_view_student_view(request):
+    students = Student.objects.all()
+    #students = User.objects.all()
+        #user.groups.filter(name='STUDENT').exists()
+
+    if request.GET.get('sname'):
+        studentName = request.GET.get('sname')
+        students = students.filter(studentEmail__icontains= studentName)
+
+    return render(request,'instructor/ins_view_student.html',{'students':students})
+
+
+@login_required(login_url='inslogin')
+@user_passes_test(is_instructor)
+def view_instructor_profile(request, pk):
+    ins = Instructor.objects.get(user_id=pk)
+
+    if request.method == 'POST':
+        profile_form = UpdateInstructorForm(request.POST,request.FILES,instance=request.user.instructor)
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.success(request, 'Your profile is updated successfully')
+        else:
+            messages.error(request, 'Error occured')
+    else:
+        profile_form = UpdateInstructorForm(instance=request.user.instructor)
+
+    context = {
+        'profile_form': profile_form,
+        'ins': ins
+    }
+
+    return render(request, 'instructor/instructor_profile.html', context)
 
 def instructor_logout_request(request):
     logout(request)

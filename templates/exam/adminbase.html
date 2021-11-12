@@ -87,7 +87,7 @@ a:focus {
 
 #sidebar ul.components {
     padding: 20px 0;
-    border-bottom: 1px solid #47748b;
+    border: 1px solid #47748b;
 }
 
 #sidebar ul p {
@@ -228,11 +228,14 @@ a.article:hover {
         <!-- Sidebar  -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h3>Bootstrap Sidebar</h3>
+                <i class="fa fa-bars"></i>
+                <center>
+                    <img src="{% static "image/admin.png" %}" width="100" height="100" style="margin-top:20px;">
+                    <p style="color:white;margin-top:10px;margin-bottom:0px;">Hi, Admin</p>
+                </center>
             </div>
 
             <ul class="list-unstyled components">
-                <p>Hi, Admin</p>
                 <li class="active">
                     <a href="/admindashboard"><i class="fas fa-tachometer-alt"></i><span>  Dashboard</span></a>
 
@@ -241,10 +244,10 @@ a.article:hover {
                     <a href="/admininstructor"><i class="fas fa-chalkboard-teacher"></i><span>  Instructors</span></a>
                 </li>
                  <li>
-                    <a href="/admininstructor"><i class="fas fa-user-graduate"></i><span>  Students</span></a>
+                    <a href="/admin-view-student"><i class="fas fa-user-graduate"></i><span>  Students</span></a>
                 </li>
                 <li>
-                   <a href="/exam/question">Question Bank</a>
+                   <a href="/training_dataset"><i class="fas fa-folder-open"></i><span>Train dataset</a>
                 </li>
                 <li>
                    <a href="/adminlogout"><i class="fas fa-sign-out-alt"></i><span>  Logout</span></a>

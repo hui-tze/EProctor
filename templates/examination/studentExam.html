@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
     <style type="text/css">
-      a:link {
+           a:link {
         text-decoration: none;
       }
 
@@ -16,32 +16,40 @@
 
       .bg-c-blue {
         background: #04868f;
+        position:static;
       }
 
-      .bg-c-green {
+      .bg-c-purple {
         background:#4C51BF;
+        position:static;
       }
 
-      .bg-c-yellow {
+      .bg-c-orange {
         background: #F56565;
+        position:static;
       }
 
-      .bg-c-pink {
-        background:#3186ca;
+      .bg-c-gtx {
+        background:#57717d;
+        position:static;
       }
 
+    .container{
+        position:relative;
+        margin-left:18%;
+        text-align:center;
+    }
 
       .card {
-
         -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
         box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
-        margin-bottom: 30px;
         -webkit-transition: all 0.3s ease-in-out;
         transition: all 0.3s ease-in-out;
+        margin: 5%;
       }
 
       .card .card-block {
-        padding: 25px;
+        padding: 30px;
       }
 
       .order-card i {
@@ -53,24 +61,45 @@
       }
 
       .f-right {
-        float: right;
+        float: left;
       }
+
       header {
       left: 0px;
       right: 0px;
     }
+
+    .dashboard{
+    background-color: #3A5898;
+    border-radius: 10px;
+    height:42px;
+    text-align:center;
+    position:static;
+}
+
+.dashboard-content{
+    position:static;
+    background-color: #E5E5E5;
+    border-radius: 10px;
+    height:80%;
+    width:100%;
+}
     </style>
   </head>
+<div class="dashboard">
+<p style="color:white;">My Exams</p>
+</div>
 
+<div class="dashboard-content">
 <br><br>
 
   <div class="container">
     <div class="row">
-      <div class="col-md-4 col-xl-3">
+      <div class="col-md-4 col-xl-4">
         <a href="{% url 'my_exam_list' id %}" style="text-decoration: none;color:white;">
-        <div class="card bg-c-pink order-card">
+        <div class="card bg-c-orange order-card">
           <div class="card-block">
-            <h6 class="m-b-20">Schedule Exams </h6>
+            <h5 class="m-b-20">Scheduled Exams </h5>
             <h2 class="text-right"><i class="fas fa-clock f-left"></i><span>{{total_exam}}</span></h2>
           </div>
         </div>
@@ -78,12 +107,12 @@
       </div>
 
 
-      <div class="col-md-4 col-xl-3">
+      <div class="col-md-4 col-xl-4">
         <a href="admin-view-teacher" style="text-decoration: none;color:white;">
-        <div class="card bg-c-green order-card">
+        <div class="card bg-c-purple order-card">
           <div class="card-block">
-            <h6 class="m-b-20">Upcoming Exams </h6>
-            <h2 class="text-right"><i class="fas fa-chalkboard-teacher f-left"></i><span>{{total_teacher}}</span></h2>
+            <h5 class="m-b-20">Upcoming Exams </h5>
+            <h2 class="text-right"><i class="fas fa-chalkboard-teacher f-left"></i><span>{{total_exam}}</span></h2>
           </div>
         </div>
       </a>
@@ -92,7 +121,7 @@
 
     </div>
   </div>
-
+ </div>
 
 <br><br><br><br><br><br><br><br><br><br>
 
