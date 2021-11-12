@@ -1,0 +1,68 @@
+
+
+{% extends 'instructor/instructorbase.html' %}
+
+{% block style %}
+.assign{
+    color: black;
+}
+
+.snap{
+    color: #FFC720;
+}
+
+.paper{
+    color: #F5564A;
+}
+
+.back{
+    padding: 10px;
+    background-color: #3A5898;
+    color: white;
+    border-radius: 10px !important;
+}
+{% endblock %}
+
+{% block content %}
+  <div class="shadow p-2 mb-4 bg-white rounded">
+    <div class="back">
+        <font size="5px">
+            Student Result
+        </font>
+    </div>
+
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th scope="col">No</th>
+          <th scope="col">Student Name</th>
+          <th scope="col">Student IC</th>
+          <th scope="col">GPA</th>
+          <th scope="col">Grade</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in all_result %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+                    {% for student in all_student %}
+                    {% if r.studentID == student.user.id %}
+                    <td>{{student.user.first_name}} {{student.user.last_name}}</td>
+                    <td>{{student.studentIC}}</td>
+                    {% endif %}
+                    {% endfor %}
+              <td>{{r.GPA}}</td>
+              <td>{{r.grade}}</td>
+              <td>
+                  <a class="snap" href="{% url 'view_snapshot' r.studentID pk %}"><i class="material-icons" title="View Snapshot">&#xE8F4;</i></a>
+                  <a class="paper" href="{% url 'view_result_paper' r.studentID pk %}"><i class="material-icons" title="View Question Paper">&#xE873;</i></a>
+              </td>
+            </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+
+</div>
+{% endblock %}

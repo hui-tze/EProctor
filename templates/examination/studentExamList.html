@@ -1,0 +1,113 @@
+{% extends 'student/studentbase.html' %}
+
+{% block style %}
+.assign{
+    color: black;
+}
+
+.snap{
+    color: #FFC720;
+}
+
+.paper{
+    color: #F5564A;
+}
+
+.back{
+    padding: 10px;
+    background-color: #3A5898;
+    color: white;
+    border-radius: 10px !important;
+}
+{% endblock %}
+
+{% block content %}
+  <div class="shadow p-2 mb-4 bg-white rounded">
+    <div class="back">
+        <font size="5px">
+            {% if upcoming %}
+                Upcoming Exam
+            {% else %}
+                Scheduled Exam
+            {% endif %}
+        </font>
+    </div>
+
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th scope="col">No</th>
+          <th scope="col">Subject</th>
+          <th scope="col">Date</th>
+          <th scope="col">Time</th>
+          <th scope="col">Duration(min)</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for exam in my_exam %}
+            {% for e in all_exams %}
+                {% if e.examID == exam.examID %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+                {% for subject in all_subjects %}
+                {% if e.subject == subject.subjectID %}
+              <td>{{subject.subjectName}}</td>
+                {% endif %}
+                {% endfor %}
+
+              <td>{{e.examDate}}</td>
+              <td>{{e.startTime}} - {{e.endTime}}</td>
+              <td>{{e.duration}}</td>
+              <td>
+                  <a class="btn btn-success" role="button" href="#" onclick="checkTime('{{ e.startTime|time:'h:i:s' }}', '{{ exam.sdID }}')">Attempt</a>
+              </td>
+                {% endif %}
+              {% endfor %}
+            </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+
+</div>
+
+
+<script>
+$(document).ready(function() {
+    $('#tbName').on('input change', function() {
+        if($(this).val() != '') {
+            $('#submit').prop('disabled', false);
+        } else {
+            $('#submit').prop('disabled', true);
+        }
+    });
+});
+
+function checkTime(time, sdID){
+     var today = new Date();
+     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+     var target = new Date(date + ' ' + time);
+     pre = target.getTime();
+     var now = new Date().getTime();
+     var distance = pre - now;
+     var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+     console.log(minutes);
+     console.log(hours);
+     if(hours > 0){
+        alert(hours + " hour(s) and " + minutes + " minute(s) to start the exam");
+     }
+     else{
+        if(minutes > 0){
+            alert(minutes + " minute(s) to start the exam");
+        }
+        else
+        {
+            var url = "{% url 'exam_rules' '2' %}".replace('2', sdID);
+            document.location.href = url;
+        }
+     }
+}
+</script>
+{% endblock %}

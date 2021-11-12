@@ -1,78 +1,113 @@
-{% extends 'base.html' %}
-{% load widget_tweaks %}
+{% extends 'instructor/instructorbase.html' %}
 
 {% block style %}
+
 .back{
     padding: 10px;
+    padding-left:20px;
     background-color: #3A5898;
     color: white;
     border-radius: 10px !important;
 }
-.pad{
-    padding:10px;
-    padding_top:10px;
+
+.padding{
+    padding: 15px
 }
+
+
 {% endblock %}
 
-{% block body %}
 
-{% for message in messages %}
-<div class="container-fluid p-0">
-  <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    {{ message }}
-  </div>
-</div>
-{% endfor %}
-<div class="shadow bg-white rounded">
+{% block content %}
+<div class="shadow p-2 mb-4 bg-white rounded">
     <div class="back">
-     <h3 style="text-align:center;">
-            Add Question
-     </h3>
+        <font size="5px">{% if editQues %} Edit Question
+                        {% else %} Add Question {% endif %}</font>
     </div>
-    <div class="container-fluid pad">
-        <div class="row">
-            <div class="col-md-1 col-xs-1 col-sm-1"></div>
 
-            <div class="col-md-1 col-xs-1 col-sm-1">
+    {% if editQues %}
+    <form method="post" action="{% url 'edit_question' editQues.questionID %}">
+    {% else %}
+    <form method="post" action="{% url 'add_question' %}">
+    {% endif %}
+    {% csrf_token %}
+    <div class="padding">
+      <div class="form-group">
+          <label for="subject">Subject</label>
+          <select id="subject" class="form-control" name="subject" required>
+              {% if not editSub %}
+              <option value="">--------</option>
+              {% endif %}
+              {% for subject in all_subject %}
+              <option value="{{subject.subjectID}}" {% if editQues.subject == subject.subjectID %} selected="selected" {% endif %}>{{subject.subjectCode}} {{subject.subjectName}}</option>
+              {% endfor %}
+          </select>
+      </div>
+      <div class="form-group">
+        <label for="Question">Question</label>
+        <textarea class="form-control" id="question" rows="3" name="question" required >{% if editQues %} {{editQues.questionDesc}} {% endif %}</textarea>
+      </div>
+        {% if editQues %}
+        {% for x in editAns %}
+            <div class="form-group">
+                <label for="option{{forloop.counter}}">Option {{forloop.counter}}</label>
+                <input type="text" class="form-control" id="option{{forloop.counter}}" name="option{{forloop.counter}}" required value="{{x.answerDesc}}">
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1 col-xs-1 col-sm-1"></div>
-            <div class="col-md-10 col-xs-10 col-sm-10">
-                <form method="post">
-                    {% csrf_token %}
-                    {% for hidden_field in form.hidden_fields %}
-                    {{ hidden_field }}
-                    {% endfor %}
-                    {% for field in form.visible_fields %}
-                    <div class="form-group">
-                        {{ field.label_tag }}
-                        {% render_field field class="form-control" %}
-                        {% if field.help_text %}
-                        <small class="form-text text-muted">{{ field.help_text }}</small>
-                        {% endif %}
-                    </div>
-                    {% endfor %}
-                    <button type="submit" class="btn btn-success">Add Question</button>
-                </form>
-                <br>
-            </div>
-            <div class="col-md-1 col-xs-1 col-sm-1"></div>
-        </div>
+        {% endfor %}
+        {% else %}
+       <div class="row">
+          <div class="form-group col-5">
+            <label for="option1">Option 1</label>
+            <input type="text" class="form-control" id="option1" name="option1" required {% if editAns %} value="{{editAns.answerDesc}}" {% endif %}>
+          </div>
+          <div class="form-group col-5">
+            <label for="option2">Option 2</label>
+            <input type="text" class="form-control" id="option2" name="option2" required>
+          </div>
+       </div>
+      <div class="row">
+          <div class="form-group col-5">
+            <label for="option3">Option 3</label>
+            <input type="text" class="form-control" id="option3" name="option3" required>
+          </div>
+          <div class="form-group col-5">
+            <label for="option4">Option 4</label>
+            <input type="text" class="form-control" id="option4" name="option4" required>
+          </div>
+      </div>
+        {% endif %}
+     <div class="form-group col-5 row">
+          <label for="correct">Correct Option</label>
+          <select id="correct" class="form-control" name="correct">
+              {% if editQues %}
+              {% for x in editAns %}
+                <option value="{{forloop.counter}}" {% if x.rightAns == True %} selected {% endif %}>Option {{forloop.counter}}</option>
+              {% endfor %}
+              {% else %}
+                 <option selected value="1">Option 1</option>
+                 <option value="2">Option 2</option>
+                 <option value="3">Option 3</option>
+                 <option value="4">Option 4</option>
+              {% endif %}
+
+          </select>
+      </div>
+    {% if editQues %}
+     <div class="form-group">
+      <label for="status">Status</label>
+      <select id="status" class="form-control" name="status">
+             <option value="A" {% if editQues.status == Active %} selected {% endif %}>Active</option>
+             <option value="I" {% if editQues.status != Active %} selected {% endif %}>Inactive</option>
+      </select>
+     </div>
+     {% endif %}
+     {% if editQues %}
+        <button type="submit" class="btn btn-success">Update Question</button>
+     {% else %}
+        <button type="submit" class="btn btn-success">Add Question</button>
+     {% endif %}
     </div>
+</form>
 </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
-
-
 {% endblock %}
+

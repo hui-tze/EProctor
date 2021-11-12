@@ -1,5 +1,4 @@
 {% extends 'instructor/instructorbase.html' %}
-{% load widget_tweaks %}
 {% block content %}
 
 <head>
@@ -59,48 +58,53 @@
       left: 0px;
       right: 0px;
     }
+
+    .card{
+    margin-left: 20px;
+    }
     </style>
 </head>
-<br><br>
 
 <div class="container">
+<br/>
     <div class="row">
+        {% for subject in all_subject %}
+        <div class="card" style="width: 20rem;">
+          <div class="card-header">
+              {{subject.subjectCode}}
+              {{subject.subjectName}}
+          </div>
+          <div class="card-body">
+            <h6 class="card-title">Total Exam(s):
+                {% for e in exam %}
+                    {% if forloop.counter == forloop.parentloop.counter %}
+                        {{e}}
+                    {% endif %}
+                {% endfor %}</h6>
+              <div class="text-right align-bottom">
+                         <a href="{% url 'exam_result' subject.subjectID %}" class="btn btn-primary">View Result</a>
 
-        <div class="col-md-4 col-xl-4">
-            <div class="card bg-c-gtx order-card">
-              <div class="card-block">
-                <h6 class="m-b-20">Registered Students </h6>
-                <h2 class="text-right"><i class="fas fa-user-graduate f-left"></i><span>{{total_student}}</span></h2>
 
               </div>
-            </div>
-          </div>
-
-      <div class="col-md-4 col-xl-4">
-        <div class="card bg-c-yellow order-card">
-          <div class="card-block">
-            <h6 class="m-b-20">Total Subjects</h6>
-           <h2 class="text-right"><i class="fas fa-book f-left"></i><span>{{total_subject}}</span></h2>
-
           </div>
         </div>
-      </div>
-
-      <div class="col-md-4 col-xl-4">
-        <div class="card bg-c-blue order-card">
-          <div class="card-block">
-            <h6 class="m-b-20">Total Questions</h6>
-            <h2 class="text-right"><i class="fas fa-question-circle f-left"></i><span>{{total_question}}</span></h2>
-
-          </div>
-        </div>
-      </div>
+        {% endfor %}
     </div>
   </div>
 
 
-<br><br><br><br><br><br><br><br><br><br>
 
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+<script>
+    function checkQuestion(q, sid){
+        if(q < 5){
+            alert("Subject less than 5 questions. Cannot manage examination!!")
+        }
+        else{
+            var url = "{% url 'examination' '2' %}".replace('2', sid);
+            document.location.href = url;
+        }
+    }
+
+</script>
 
 {% endblock %}

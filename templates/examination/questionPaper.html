@@ -1,0 +1,205 @@
+
+{% extends 'instructor/instructorbase.html' %}
+
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <style type="text/css">
+      a:link {
+        text-decoration: none;
+      }
+
+      .order-card {
+        color: rgb(255, 255, 255);
+      }
+
+      .bg-c-blue {
+        background: #04868f;
+      }
+
+      .bg-c-green {
+        background:#4C51BF;
+      }
+
+      .bg-c-yellow {
+        background: #F56565;
+      }
+
+      .bg-c-pink {
+        background:#3186ca;
+      }
+
+
+      .card {
+
+        -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+        box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+        margin-bottom: 30px;
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+      }
+
+      .card .card-block {
+        padding: 25px;
+      }
+
+      .order-card i {
+        font-size: 26px;
+      }
+
+      .f-left {
+        float: left;
+      }
+
+      .f-right {
+        float: right;
+      }
+      header {
+      left: 0px;
+      right: 0px;
+      }
+
+    .back{
+        padding: 10px;
+        background-color: #3A5898;
+        color: white;
+        border-radius: 10px !important;
+    }
+
+    .pad{
+        padding-top:5px;
+    }
+
+    .border{
+        padding: 10px;
+        border: 1px black;
+    }
+
+    .radio1 {
+        visibility: hidden;
+    }
+
+    .padQues {
+        padding:10px;
+    }
+}
+</style>
+</head>
+
+<div class="shadow p-2 mb-4 bg-white rounded">
+    <div class="back">
+        <font size="5px">Question Paper</font>
+    </div>
+    <br/>
+
+
+  {% for ques in student_question %}
+  <div class="d-flex flex-row">
+    <div class="w-25 p-3">
+        <div class="shadow bg-white p-3 mb-2 rounded h-50 w-75 d-inline-block float-right">
+            <div class="back">
+              <b>Question {{forloop.counter}}</b>
+            </div>
+            {% for answer in all_answer %}
+                {% if ques.questionID == answer.question %}
+                    {% if ques.studAns is not null %}
+                        {% if ques.studAns == answer.answerID %}
+                            {% if answer.rightAns == 'T' %}
+                                <div class="padQues">
+                                    <i class="fas fa-check-circle" style="color:green"></i> Correct <br>
+                                    Mark 1 out of 1
+                                </div>
+                            {% else %}
+                                <div class="padQues">
+                                 <i class="fas fa-times-circle" style="color:red"></i> Incorrect <br>
+                                    Mark 0 out of 1
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if ques.studAns is null %}
+                <div class="padQues">
+                    <i class="fas fa-exclamation-circle" style="color:#f2be00"></i> Not answered <br>
+                    Mark 0 out of 1
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="w-75 p-3">
+      <div class="shadow p-2 mb-4 bg-white rounded" id="question{{forloop.counter}}">
+          <div class="padQues">
+              {% for question in all_questions %}
+                {% if ques.questionID == question.questionID %}
+            <font size="4pt"> {{question.questionDesc|linebreaksbr}}</font>
+                {% endif %}
+              {% endfor %}
+
+            {% for answer in all_answer %}
+                {% if ques.questionID == answer.question %}
+                    {% if ques.studAns is not null %}
+                        {% if ques.studAns == answer.answerID %}
+                            {% if answer.rightAns == 'T' %}
+                                <div class="pad">
+                                <div class="border border-success bg-success text-white">
+                                    <input type="radio" checked disabled>
+                                    {{answer.answerDesc}}
+                                </div>
+                                </div>
+                            {% else %}
+                                <div class="pad">
+                                 <div class="border border-danger bg-danger text-white">
+                                     <input type="radio" checked disabled>
+                                    {{answer.answerDesc}}
+                                 </div>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            {% if answer.rightAns == 'T' %}
+                                <div class="pad">
+                                <div class="border border-success bg-success text-white">
+                                    <input type="radio" checked disabled class="radio1">
+                                    {{answer.answerDesc}}
+                                </div>
+                                </div>
+                            {% else %}
+                            <div class="pad">
+                                <div class="border">
+                                    <input type="radio" disabled class="radio1">
+                                    {{answer.answerDesc}}
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        {% if answer.rightAns == 'T' %}
+                            <div class="pad">
+                            <div class="border border-success bg-success text-white">
+                                <input type="radio" disabled class="radio1">
+                                {{answer.answerDesc}}
+                            </div>
+                            </div>
+                         {% else %}
+                            <div class="pad">
+                            <div class="border">
+                                <input type="radio" disabled class="radio1">
+                                {{answer.answerDesc}}
+                            </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+</div>
+
+
+{% endblock %}

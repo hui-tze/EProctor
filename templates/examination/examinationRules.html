@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'student/studentbase.html' %}
 
 
 {% block style %}
@@ -92,25 +92,44 @@ span.number{
 {% endblock %}
 
 
-{% block body %}
+{% block content %}
 <div class="shadow p-2 mb-4 bg-white rounded">
     <div class="back" style="text-align:center;">
-        <font size="5px" >Examination Rules and Regulations</font>
+        <font size="5px" >Examination</font>
     </div>
-    <table class="table">
+    <table class="table table-borderless">
       <tbody>
-      <tr><td>  1.</td>  <td>Answer <b>all</b> questions given.</td></tr>
-      <tr><td>  2.</td>  <td>You are given <b>1 hour(s)</b> to answer all the questions.</td></tr>
-      <tr><td>  3.</td>  <td><b>CHEATING</b> or <b>PLAGIARISM</b> during examination is not allowed.</td></tr>
-      <tr><td>  4.</td>  <td>Please make sure you <b>on your camera</b> before starting examination.</td></tr>
-      <tr><td>  5.</td>  <td>Please make sure you camera is <b>always on</b> during the examination.</td></tr>
-      <tr><td>  6.</td>  <td>Click on the “<b>Submit</b>” button to submit your answer after done answering your questions. </td></tr>
-      <tr><td>  7.</td>  <td>You can view your result after the examination session is ended. </td></tr>
+      {% for e in exam_info %}
+
+      <tr><td align="right">Subject: </td>
+          <td>
+              {% for subject in all_subjects %}
+                {% if subject.subjectID == e.subject %}
+              <b>{{subject.subjectCode}} {{subject.subjectName}}</b>
+                {% endif %}
+              {% endfor %}
+          </td>
+      </tr>
+      <tr><td align="right">Date: </td><td><b>{{e.examDate}}</b></td></tr>
+      <tr><td align="right">Time: </td><td><b>{{e.startTime}} - {{e.endTime}}</b></td></tr>
+      {% endfor %}
+      <tr><td colspan="2"> <div class="back" style="text-align:center;">
+        Rules and Regulations
+    </div></td></tr>
+      <tr><td colspan="2"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1.  Answer <b>all</b> questions given.</td></tr>
+      <tr><td colspan="2"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 2.  You are given <b>1 hour(s)</b> to answer all the questions.</td></tr>
+      <tr><td colspan="2"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 3.  <b>CHEATING</b> or <b>PLAGIARISM</b> during examination is not allowed.</td></tr>
+      <tr><td colspan="2"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 4.  Please make sure your camera is placed <b>in front of your face</b> before starting examination.</td></tr>
+      <tr><td colspan="2"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 5.  Your camera will <b>always on</b> during the examination.</td></tr>
+      <tr><td colspan="2"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 5.  Your camera will <b>always on</b> during the examination.</td></tr>
+      <tr><td colspan="2"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 6.  Click on the “<b>Submit</b>” button to submit your answer after done answering your questions. </td></tr>
+      <tr><td colspan="2"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 7.  You can view your result after the examination session is ended. </td></tr>
       </tbody>
     </table>
     <div style="text-align:center;">
-        <a role="button" class="btn btn-success" href="{% url 'start_exam' id %}">Start Examination</a>
+        <a role="button" class="btn btn-success" href="{% url 'start_exam' pk %}">Start Examination</a>
     </div>
 </div>
+
 {% endblock %}
 

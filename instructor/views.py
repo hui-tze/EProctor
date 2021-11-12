@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.models import Group
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
+from exam.models import *
 
 # Create your views here.
 from .models import Instructor
@@ -72,8 +73,9 @@ def instructor_login_view(request):
 @user_passes_test(is_instructor)
 def instructor_dashboard_view(request):
     context = {
-
-        'total_student': Student.objects.all().count()
+        'total_student': Student.objects.all().count(),
+        'total_subject': Subject.objects.all().count(),
+        'total_question': Question.objects.all().count()
     }
     return render(request, 'instructor/instructor_dashboard.html', context=context)
 

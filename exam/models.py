@@ -1,11 +1,13 @@
 from django.db import models
 from django import forms
 
+
 # Create your models here.
 class Subject(models.Model):
     subjectID = models.AutoField(primary_key=True, unique=True, null=False)
     subjectCode = models.CharField(max_length=12)
     subjectName = models.CharField(max_length=100)
+    creditHour = models.IntegerField(null=True)
 
     def __str__(self):
         return self.subjectCode + " " + self.subjectName
@@ -50,6 +52,7 @@ class StudentExam(models.Model):
     sdID = models.AutoField(primary_key=True)
     examID = models.IntegerField()
     studentID = models.IntegerField()
+    endAttempt = models.DateTimeField(null=True)
     status = models.CharField(max_length=1, null=True)
 
 
@@ -60,3 +63,20 @@ class StudentAnswer(models.Model):
     sdID = models.IntegerField()
 
 
+class Snapshot(models.Model):
+    sID = models.AutoField(primary_key=True)
+    image = models.CharField(max_length=20)
+    type = models.IntegerField()
+    sdID = models.IntegerField()
+    examID = models.IntegerField(null=True)
+
+
+class Result(models.Model):
+    resultID = models.AutoField(primary_key=True)
+    studentID = models.IntegerField()
+    examID = models.IntegerField()
+    ansAttempt = models.IntegerField()
+    correctAns = models.IntegerField()
+    GPA = models.FloatField()
+    grade = models.CharField(max_length=2)
+    status = models.CharField(max_length=1)

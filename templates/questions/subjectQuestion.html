@@ -1,11 +1,10 @@
-{% extends 'student/studentbase.html' %}
-{% load widget_tweaks %}
+{% extends 'instructor/instructorbase.html' %}
 {% block content %}
 
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
-    <style type="text/css">
+<style type="text/css">
       a:link {
         text-decoration: none;
       }
@@ -26,8 +25,8 @@
         background: #F56565;
       }
 
-      .bg-c-pink {
-        background:#3186ca;
+      .bg-c-gtx {
+        background:#57717d;
       }
 
 
@@ -59,43 +58,41 @@
       left: 0px;
       right: 0px;
     }
+
+    .card{
+    margin-left: 20px;
+    }
     </style>
-  </head>
+</head>
 
-<br><br>
-
-  <div class="container">
+<div class="container">
+    <br/>
     <div class="row">
-      <div class="col-md-4 col-xl-3">
-        <a href="{% url 'schedule_exam_list' pk %}" style="text-decoration: none;color:white;">
-        <div class="card bg-c-pink order-card">
-          <div class="card-block">
-            <h6 class="m-b-20">Scheduled Exams </h6>
-            <h2 class="text-right"><i class="fas fa-clock f-left"></i><span>{{total_exam}}</span></h2>
+        {% for subject in all_subject %}
+        <div class="card" style="width: 20rem;">
+          <div class="card-header">
+              {{subject.subjectCode}}
+              {{subject.subjectName}}
+          </div>
+          <div class="card-body">
+            <h6 class="card-title">Total Questions:
+                {% for q in ques %}
+                    {% if forloop.counter == forloop.parentloop.counter %}
+                        {{q}}
+                    {% endif %}
+                {% endfor %}</h6>
+              <div class="text-right align-bottom">
+                <a href="{% url 'question' subject.subjectID %}" class="btn btn-primary">Manage</a>
+              </div>
           </div>
         </div>
-      </a>
-      </div>
-
-
-      <div class="col-md-4 col-xl-3">
-        <a href="{% url 'upcoming_exam_list' pk %}" style="text-decoration: none;color:white;">
-        <div class="card bg-c-green order-card">
-          <div class="card-block">
-            <h6 class="m-b-20">Upcoming Exams </h6>
-            <h2 class="text-right"><i class="fas fa-chalkboard-teacher f-left"></i><span>{{upcoming}}</span></h2>
-          </div>
-        </div>
-      </a>
-      </div>
-
-
+        {% endfor %}
     </div>
   </div>
 
 
 <br><br><br><br><br><br><br><br><br><br>
 
-<script src="http://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 
 {% endblock %}
