@@ -156,19 +156,11 @@ hr{
                 {% endif %}
               {% endfor %}
           </div>
-
-              <table class="table table-striped">
-
-
               <table class="table table-striped table-sm">
               <tbody>
 
             {% for answer in all_answer %}
                 {% if ques.questionID == answer.question %}
-
-            {% for answer in all_answer %}
-              <tbody>
-                {% if question.questionID == answer.question %}
                 <tr><td>
 
                      <input type="radio" value="{{answer.answerID}}" id="{{ques.questionID}}" name="option"
@@ -185,12 +177,7 @@ hr{
               </tbody>
             </table>
         </div>
-
-
-        {% endif %}
-          {% endfor %}
-    </div>
-
+      </div>
       </form>
 
     {% endfor %}
@@ -199,19 +186,6 @@ hr{
   </div>
 
   <div class="w-25 p-3" id="invigilator">
-     <img src="{% url 'video_feed' %}" width="160" height="110" class="float-right">
-
-      <div class="shadow p-2 mb-4 bg-white rounded">
-          <div class="form-group">
-           <video id="stream" width="150" height="80">
-                 <canvas id="capture" width="150" height="80"></canvas>
-           </video>
-           <br>
-           <button id="btn-capture" type="button" class="btn btn-primary justify-content-center">Capture Image</button>
-            <br><br>
-            <div id="snapshot"></div>
-            <input type="hidden" id="imgConverted" name="imgConverted">
-      </div>
      <img src="{% url 'video_feed' pk %}" width="180" height="130">
       <br/><br/>
         <div class="back">
@@ -326,4 +300,3 @@ var x = setInterval(function() {
 
 </script>
 {% endblock %}
-

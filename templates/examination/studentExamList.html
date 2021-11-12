@@ -104,7 +104,7 @@ function checkTime(time, sdID){
         }
         else
         {
-            var url = "{% url 'exam_rules' '2' %}".replace('2', sdID);
+            var url = "{% url 'verification_before_exam' '2' %}".replace('2', sdID);
             document.location.href = url;
         }
      }

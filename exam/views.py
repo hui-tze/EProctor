@@ -67,8 +67,7 @@ prototxtPath = os.path.sep.join([settings.BASE_DIR, "face_detector/deploy.protot
 weightsPath = os.path.sep.join([settings.BASE_DIR, "face_detector/res10_300x300_ssd_iter_140000.caffemodel"])
 faceNet = cv2.dnn.readNet(prototxtPath, weightsPath)
 maskNet = load_model(os.path.join(settings.BASE_DIR, 'face_detector/mask_detector.model'))
-UPLOAD_FOLDER = '/static/snapshot/'
-SNAPSHOT_FOLDER = os.path.join('static', 'snapshot')
+SNAPSHOT_FOLDER = os.path.join('static','snapshot')
 
 
 # Create your views here.

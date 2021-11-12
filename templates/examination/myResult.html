@@ -96,11 +96,8 @@
                     {% endfor %}
               <td>{{myexam.endAttempt}}</td>
               <td>
-
-                  <a class="btn btn-success" role="button" href="{% url 'verification_before_exam' myexam.sdID %}">Attempt</a></td>
-
-                  <a class="btn btn-success" role="button" href="{% url 'student_answer' myexam.sdID %}">View Result</a></td>
-
+                <a class="btn btn-success" role="button" href="{% url 'student_answer' myexam.sdID %}">View Result</a>
+              </td>
             </tr>
         {% endif %}
         {% endfor %}
